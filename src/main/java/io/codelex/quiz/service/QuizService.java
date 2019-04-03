@@ -6,7 +6,12 @@ import io.codelex.quiz.repository.AnswerRepository;
 import io.codelex.quiz.repository.QuestionRepository;
 import org.springframework.stereotype.Component;
 
-@Component 
+import javax.validation.Valid;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+
+@Component
 public class QuizService {
     private AnswerRepository answerRepository;
     private QuestionRepository questionRepository;
@@ -17,12 +22,29 @@ public class QuizService {
     }
 
 
-    public Answer saveAnswer(Answer answer) {
+    public Answer saveAnswer(@Valid Answer answer) {
         return answerRepository.save(answer);
     }
-    public Question saveQuestion(Question question){
+
+    public Question saveQuestion(Question question) {
         question.getAnswers()
-                .forEach(it->answerRepository.save(it));
-        return questionRepository.save(question);   
+                .forEach(it -> answerRepository.save(it));
+        return questionRepository.save(question);
+    }
+
+    public Question findQuestionById(Long id) {
+        Optional<Question> question = questionRepository.findById(id);
+        if (question.isPresent()) {
+            return question.get();
+        } else {
+            throw new NoSuchElementException();
+        }
+    }
+
+    public List<Question> randomdTestQuestions(int questionCount) {
+        return questionRepository.findAll();
+/*
+        return questionRepository.findRandomTestQuestions(questionCount);
+*/
     }
 }

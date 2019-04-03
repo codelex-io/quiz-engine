@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "answers")
@@ -18,6 +20,7 @@ public class Answer {
     private Long id;
     @JoinColumn(name = "questionId")
     private Long questionId;
+    @NotNull
     private String answer;
     private boolean isCorrectAnswer;
 

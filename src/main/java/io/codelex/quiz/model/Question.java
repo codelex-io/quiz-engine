@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 @Entity
@@ -19,6 +20,7 @@ public class Question {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "questionId")
     private Long id;
+    @NotEmpty
     private String question;
     @OneToMany
     private List<Answer> answers;
