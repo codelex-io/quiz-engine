@@ -1,4 +1,4 @@
-package io.codelex.quiz;
+package io.codelex;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

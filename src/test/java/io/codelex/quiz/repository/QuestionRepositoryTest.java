@@ -5,30 +5,29 @@ import io.codelex.quiz.model.Question;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
+
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class QuestionRepositoryTest {
     @Autowired
     private QuestionRepository questionRepository;
-    @Autowired 
+    @Autowired
     private AnswerRepository answerRepository;
-    
+
     @Test
-    public void should_find_20_random_questions(){
+    public void should_find_20_random_questions() {
         //given
         List<Question> questionList = get20questions();
         for (Question question : questionList) {
-            for (Answer answer: question.getAnswers()) {
+            for (Answer answer : question.getAnswers()) {
                 answerRepository.save(answer);
             }
             questionRepository.save(question);
@@ -37,7 +36,7 @@ public class QuestionRepositoryTest {
         List<Question> questionList1 = questionRepository.findAll();
         //then
         Assertions.assertFalse(questionList1.isEmpty());
-        }
+    }
 
     private Answer createAnswerObject() {
         return new Answer(
@@ -45,9 +44,10 @@ public class QuestionRepositoryTest {
                 "Spring Boot"
                 , false);
     }
+
     private List<Question> get20questions() {
         List<Question> questionList = new ArrayList<>();
-        for (Long i = 1L; i <=20L ; i++) {
+        for (Long i = 1L; i <= 20L; i++) {
             List<Answer> answersList = new ArrayList();
             answersList.add(new Answer(
                     i,
@@ -62,10 +62,10 @@ public class QuestionRepositoryTest {
                     "String Boot 3",
                     true));
             questionList.add(new Question(
-                    "Question number"+i,
+                    "Question number" + i,
                     answersList,
                     "io.codelex"
-                    ));
+            ));
         }
         System.out.println(questionList);
         return questionList;
