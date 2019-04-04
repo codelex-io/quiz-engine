@@ -42,7 +42,7 @@ public class QuizService {
     }
 
     public List<Question> randomdTestQuestions(int questionCount) {
-        return questionRepository.findAll();
+        return questionRepository.findRandomTestQuestions(questionCount);
 /*
         return questionRepository.findRandomTestQuestions(questionCount);
 */

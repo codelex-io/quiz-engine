@@ -8,8 +8,11 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Optional;
 
-public interface QuestionRepository extends JpaRepository<Question,Long> {
+public interface QuestionRepository extends JpaRepository<Question, Long> {
     Optional<Question> findById(Long id);
-/*    @Query("SELECT from Q")
-    List<Question> findRandomTestQuestions(@Param("count") int count);*/
+
+    @Query(
+            value = "SELECT * from questions ORDER BY RANDOM() LIMIT :count",
+            nativeQuery = true)
+    List<Question> findRandomTestQuestions(@Param("count") int count);
 }

@@ -32,10 +32,14 @@ public class QuestionRepositoryTest {
             }
             questionRepository.save(question);
         }
+        int count = 9;
         //when
-        List<Question> questionList1 = questionRepository.findAll();
+        List<Question> questionList1 = questionRepository.findRandomTestQuestions(count);
         //then
-        Assertions.assertFalse(questionList1.isEmpty());
+        System.out.println(questionList1.size());
+        System.out.println(questionList1);
+        
+        Assertions.assertEquals(count, questionList1.size());
     }
 
     private Answer createAnswerObject() {
