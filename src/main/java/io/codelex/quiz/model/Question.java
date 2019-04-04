@@ -3,6 +3,7 @@ package io.codelex.quiz.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,7 +23,7 @@ public class Question {
     private Long id;
     @NotEmpty
     private String question;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Answer> answers;
     private String credits;
 
@@ -66,6 +67,8 @@ public class Question {
     public Long getId() {
         return id;
     }
+    
+    
 
     public void setId(Long id) {
         this.id = id;

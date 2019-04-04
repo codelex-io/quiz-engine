@@ -41,10 +41,21 @@ public class QuizService {
         }
     }
 
-    public List<Question> randomdTestQuestions(int questionCount) {
-        return questionRepository.findRandomTestQuestions(questionCount);
-/*
-        return questionRepository.findRandomTestQuestions(questionCount);
-*/
+    public void deleteAnswerById(Long id) throws IllegalArgumentException {
+        answerRepository.deleteById(id);
     }
+
+    public void deleteQuestionById(Long id) throws IllegalArgumentException {
+        questionRepository.deleteById(id);
+    }
+
+    public List<Question> randomdTestQuestions(int questionCount) throws NoSuchElementException {
+        if (questionCount <= 0) {
+            return questionRepository.findRandomTestQuestions(questionCount);
+
+        } else {
+            throw new NoSuchElementException();
+        }
+    }
+    
 }

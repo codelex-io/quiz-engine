@@ -11,8 +11,7 @@ import java.util.Optional;
 public interface QuestionRepository extends JpaRepository<Question, Long> {
     Optional<Question> findById(Long id);
 
-    @Query(
-            value = "SELECT * from questions ORDER BY RANDOM() LIMIT :count",
+    @Query(value = "SELECT * from questions ORDER BY RANDOM() LIMIT :count",
             nativeQuery = true)
     List<Question> findRandomTestQuestions(@Param("count") int count);
 }
