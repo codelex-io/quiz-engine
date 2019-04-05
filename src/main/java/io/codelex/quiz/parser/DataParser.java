@@ -5,24 +5,14 @@ import io.codelex.quiz.model.Answer;
 import io.codelex.quiz.model.Question;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 public class DataParser {
 
-    public List<Question> parse(List<String> lines) {
-
-        List<String> questions = new ArrayList<>();
-        String question = "";
-
-        for(String line : lines) {
-            if (line.equals("---")) {
-                questions.add(question);
-                question = "";
-            } else {
-                question += line + "\n";
-            }
-        }
-        return mapQuestions(questions);
+    public List<Question> parseQuestions(List<String> lines) {
+        return null;
     }
 
     private List<Question> mapQuestions(List<String> rawQuestions) {

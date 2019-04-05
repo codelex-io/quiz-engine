@@ -29,6 +29,5 @@ public class DataFetcher {
         catch (IOException e) {
             throw new IOException("I/O Error: " + e.getMessage());
         }
-        
     }
 }
