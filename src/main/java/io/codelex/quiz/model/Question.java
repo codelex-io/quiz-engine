@@ -3,33 +3,34 @@ package io.codelex.quiz.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "questions")
 public class Question {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "questionId")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotEmpty
     private String question;
+    
     @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Answer> answers;
+    
     private String credits;
 
     public Question(String question, List<Answer> answers) {
         this.question = question;
         this.answers = answers;
+    }
+
+    public Question(@NotEmpty String question, String credits) {
+        this.question = question;
+        this.answers= new ArrayList<>();
+        this.credits = credits;
     }
 
     @JsonCreator
@@ -68,13 +69,8 @@ public class Question {
         return id;
     }
     
-    
-
     public void setId(Long id) {
         this.id = id;
     }
-    public void addAnswer(Answer answer){
-        this.answers.add(answer);
-        answer.setQuestionId(this.id);
-    }
+    
 }

@@ -3,47 +3,37 @@ package io.codelex.quiz.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Table;
-import javax.validation.constraints.NotEmpty;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "answers")
 public class Answer {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @JoinColumn(name = "questionId")
+    @NotNull
     private Long questionId;
+    //------------------------- ID generated, questionId has to be set by question. questionId = Question generated id. 
     @NotNull
     private String answer;
+    @NotNull
     private boolean isCorrectAnswer;
 
-    public Answer(String answer, boolean isCorrectAnswer) {
-        this.answer = answer;
-        this.isCorrectAnswer = isCorrectAnswer;
-    }
-
     @JsonCreator
-    public Answer(@JsonProperty("questionId") Long questionId,
-                  @JsonProperty("answer") String answer,
+    public Answer(
+            @JsonProperty("questionId") Long questionId,
+            @JsonProperty("answer") String answer,
                   @JsonProperty("isCorrect") boolean isCorrectAnswer) {
-        this.questionId = questionId;
         this.answer = answer;
         this.isCorrectAnswer = isCorrectAnswer;
+        this.questionId= questionId;
     }
-
-    public Long getQuestionId() {
-        return questionId;
-    }
-
-    public void setQuestionId(Long questionId) {
-        this.questionId = questionId;
+    public Answer(
+            @JsonProperty("answer") String answer,
+            @JsonProperty("isCorrect") boolean isCorrectAnswer) {
+        this.answer = answer;
+        this.isCorrectAnswer = isCorrectAnswer;
     }
 
     public String getAnswer() {
@@ -62,12 +52,11 @@ public class Answer {
         isCorrectAnswer = correctAnswer;
     }
 
-    public Long getId() {
-        return id;
+    public Long getQuestionId() {
+        return questionId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setQuestionId(Long questionId) {
+        this.questionId = questionId;
     }
-
 }

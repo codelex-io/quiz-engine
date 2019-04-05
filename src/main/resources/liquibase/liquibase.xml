@@ -4,77 +4,66 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
 
-    <changeSet id="create airports tables" author="MikusZ">
-        <createTable tableName="airports">
-            <column name="airport" type="varchar(255)">
-                <constraints primaryKey="true"
-                             nullable="false"
-                             primaryKeyName="pk_airports"/>
-            </column>
-            <column name="city" type="varchar(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="country" type="varchar(255)">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
-
-    <changeSet id="create flights table" author="MikusZ">
-        <createSequence sequenceName="flights_seq"/>
-        <createTable tableName="flights">
+    <changeSet id="create questions table" author="MikusZ">
+        <createSequence sequenceName="question_sq_id"/>
+        <createTable tableName="questions">
             <column name="id"
                     type="bigint"
-                    defaultValueSequenceNext="flights_seq">
+                    defaultValueSequenceNext="question_sq_id">
                 <constraints primaryKey="true"
                              nullable="false"
                              primaryKeyName="pk_flights"/>
             </column>
-            <column name="from_airport"
-                    type="varchar (255)">
+            <column name="question"
+                    type="text">
                 <constraints nullable="false"/>
             </column>
-            <column name="to_airport"
+            <column name="credits"
                     type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        <createIndex tableName="questions"
+                     indexName="idx_question_id">
+            <column name="id"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="create answers table" author="MikusZ">
+        <createSequence sequenceName="answer_sq_id"/>
+        <createTable tableName="answers">
+            <column name="id"
+                    type="bigint"
+                    defaultValueSequenceNext="answer_sq_id">
+                <constraints primaryKey="true"
+                             nullable="false"
+                             primaryKeyName="pk_answers"/>
+            </column>
+            <column name="answer"
+                    type="text">
                 <constraints nullable="false"/>
             </column>
-            <column name="departure_time"
-                    type="timestamp without timezone">
+            <column name="is_correct_answer"
+                    type="boolean">
                 <constraints nullable="false"/>
             </column>
-            <column name="arrival_time"
-                    type="timestamp without timezone">
-                <constraints nullable="false"/>
-            </column>
-            <column name="carrier"
-                    type="varchar (255)">
+            <column name="question_id"
+                    type="bigint">
                 <constraints nullable="false"/>
             </column>
         </createTable>
-
-        <addForeignKeyConstraint baseTableName="flights"
-                                 baseColumnNames="from_airport"
-                                 constraintName="fk_flights_airportFrom_airports_airport"
-                                 referencedTableName="airports"
-                                 referencedColumnNames="airport"
-                                 onDelete="CASCADE"/>
-
-        <createIndex tableName="flights"
-                     indexName="idx_flights_airportFrom">
-            <column name="from_airport"/>
+        <addForeignKeyConstraint baseTableName="answers"
+                                 baseColumnNames="question_id"
+                                 constraintName="fk_question_id_answer"
+                                 referencedTableName="questions"
+                                 referencedColumnNames="id"/>
+        <createIndex tableName="answers"
+                     indexName="idx_answers_id">
+            <column name="id"/>
         </createIndex>
-
-        <addForeignKeyConstraint baseTableName="flights"
-                                 baseColumnNames="to_airport"
-                                 constraintName="fk_flights_airportTo_airports_airport"
-                                 referencedTableName="airports"
-                                 referencedColumnNames="airport"
-                                 onDelete="CASCADE"/>
-        <createIndex tableName="flights" indexName="idx_flights_airportTo">
-            <column name="to_airport"/>
+        <createIndex tableName="answers"
+                     indexName="idx_answers_question_id">
+            <column name="question_id"/>
         </createIndex>
-        <addUniqueConstraint tableName="flights"
-                             columnNames="from_airport,to_airport,departure_time,arrival_time,carrier"
-                             constraintName="unq_flights_airportFrom_airportTo_departureTime_arrivalTime_carrier"/>
     </changeSet>
 </databaseChangeLog>
