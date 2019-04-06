@@ -6,6 +6,9 @@ import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +21,7 @@ public class QuestionRepositoryTest {
     private QuestionRepository questionRepository;
     @Autowired
     private AnswerRepository answerRepository;
-
+    
     @Test
     public void should_find_20_random_questions() {
         //given
@@ -48,7 +51,7 @@ public class QuestionRepositoryTest {
 
     private List<Question> get20questions() {
         List<Question> questionList = new ArrayList<>();
-        for (Long i = 1L; i <= 20L; i++) {
+        for (long i = 1L; i <= 20L; i++) {
             List<Answer> answersList = new ArrayList();
             answersList.add(new Answer(
                     i,
