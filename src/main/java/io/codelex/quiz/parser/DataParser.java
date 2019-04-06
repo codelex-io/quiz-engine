@@ -34,9 +34,7 @@ public class DataParser {
 
             for (int i = 1; i < tst.length; i++) {
                 String line = tst[i];
-                answers.add(new Answer(line, line.contains("*)")));
             }
-            questions.add(new Question(tst[0], answers));
         }
         return questions;
     }

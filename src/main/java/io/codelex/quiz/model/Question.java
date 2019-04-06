@@ -3,8 +3,18 @@ package io.codelex.quiz.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,32 +23,26 @@ import java.util.List;
 public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long questionId;
     @NotEmpty
     private String question;
-    
-    @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<Answer> answers;
-    
+    @NotBlank
     private String credits;
-
-    public Question(String question, List<Answer> answers) {
-        this.question = question;
-        this.answers = answers;
-    }
-
-    public Question(@NotEmpty String question, String credits) {
-        this.question = question;
-        this.answers= new ArrayList<>();
-        this.credits = credits;
-    }
-
+    @NotNull
+    @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true,mappedBy = "question")
+    private List<Answer> answers;
     @JsonCreator
-    public Question(@JsonProperty("question") String question,
-                    @JsonProperty("answers") List<Answer> answers,
-                    @JsonProperty("credits") String credits) {
+    public Question(@JsonProperty("question")@NotEmpty String question,
+                    @JsonProperty("credits")@NotBlank String credits,
+                    @JsonProperty("answers")@NotNull List<Answer> answers) {
         this.question = question;
+        this.credits = credits;
         this.answers = answers;
+    }
+
+    public Question(@NotEmpty String question, @NotBlank String credits) {
+        this.question = question;
+        this.credits = credits;
     }
 
     public String getCredits() {
@@ -66,11 +70,11 @@ public class Question {
     }
 
     public Long getId() {
-        return id;
+        return questionId;
     }
-    
+
     public void setId(Long id) {
-        this.id = id;
+        this.questionId = id;
     }
-    
+
 }

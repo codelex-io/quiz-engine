@@ -25,7 +25,7 @@ public class QuestionRepositoryTest {
     @Test
     public void should_find_20_random_questions() {
         //given
-        List<Question> questionList = get20questions();
+        List<Question> questionList = null;
         for (Question question : questionList) {
             for (Answer answer : question.getAnswers()) {
                 answerRepository.save(answer);
@@ -41,7 +41,7 @@ public class QuestionRepositoryTest {
         
         Assertions.assertEquals(count, questionList1.size());
     }
-
+/*
     private Answer createAnswerObject() {
         return new Answer(
                 1L,
@@ -73,5 +73,5 @@ public class QuestionRepositoryTest {
         }
         System.out.println(questionList);
         return questionList;
-    }
+    }*/
 }

@@ -7,7 +7,7 @@
     <changeSet id="create questions table" author="MikusZ">
         <createSequence sequenceName="question_sq_id"/>
         <createTable tableName="questions">
-            <column name="id"
+            <column name="question_id"
                     type="bigint"
                     defaultValueSequenceNext="question_sq_id">
                 <constraints primaryKey="true"
@@ -25,14 +25,14 @@
         </createTable>
         <createIndex tableName="questions"
                      indexName="idx_question_id">
-            <column name="id"/>
+            <column name="question_id"/>
         </createIndex>
     </changeSet>
 
     <changeSet id="create answers table" author="MikusZ">
         <createSequence sequenceName="answer_sq_id"/>
         <createTable tableName="answers">
-            <column name="id"
+            <column name="answer_id"
                     type="bigint"
                     defaultValueSequenceNext="answer_sq_id">
                 <constraints primaryKey="true"
@@ -56,10 +56,10 @@
                                  baseColumnNames="question_id"
                                  constraintName="fk_question_id_answer"
                                  referencedTableName="questions"
-                                 referencedColumnNames="id"/>
+                                 referencedColumnNames="question_id"/>
         <createIndex tableName="answers"
                      indexName="idx_answers_id">
-            <column name="id"/>
+            <column name="answer_id"/>
         </createIndex>
         <createIndex tableName="answers"
                      indexName="idx_answers_question_id">

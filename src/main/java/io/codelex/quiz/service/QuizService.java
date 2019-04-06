@@ -62,9 +62,9 @@ public class QuizService {
 
     public Question testSaving(AddQuestionRequest request) {
         List<Answer> answerList = new ArrayList<>();
-        Question question = new Question(request.getQuestion(), answerList, request.getCredits());
+        Question question = new Question(request.getQuestion(),request.getCredits(), answerList);
         request.getAnswers()
-                .forEach(it -> answerList.add(new Answer(question.getId(), it.getAnswer(), it.isCorrect())));
+                .forEach(it -> answerList.add(new Answer(question, it.getAnswer(), it.isCorrect())));
 
 //        List<Answer> answerList = new ArrayList<>();
 //        request.getAnswers()

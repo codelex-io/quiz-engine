@@ -21,7 +21,7 @@ public class QuizServiceTest {
     @Test
     public void should_save_answer_objects() {
         //given
-        Answer answer = createAnswerObject();
+        Answer answer = createIncorrectAnswerObject();
         Mockito.when(answerRepository.save(any())).thenReturn(answer);
         //when
         Answer answer1 = quizService.saveAnswer(answer);
@@ -32,14 +32,10 @@ public class QuizServiceTest {
     @Test
     public void should_return_error_if_answer_is_null() {
         //given
-        Answer answer = new Answer(
-                1L,
-                null, 
-                false);
+        Answer answer = createIncorrectAnswerObject();
         //when
         Mockito.when(answerRepository.save(any()));
         //then
-        Mockito.verify(answerRepository.save(answer));
         Assertions.assertThrows(NullPointerException.class,()->{answerRepository.save(answer);});
     }
 
@@ -55,7 +51,7 @@ public class QuizServiceTest {
 
     }
 
-
+/*
     Question createQuestionObject() {
         List<Answer> answers = new ArrayList<>();
         answers.add(new Answer(
@@ -105,6 +101,14 @@ public class QuizServiceTest {
                 1L,
                 "Spring Boot"
                 , false);
+    }*/
+private Question createQuestionObject(){
+    return new Question("Jautājums?","io.codelex");
+}
+private Answer createIncorrectAnswerObject(){
+    return new Answer("Atbilde",false);
+}private Answer createCorrectAnswerObject(){
+        return new Answer("Atbilde",true);
     }
 
 }
