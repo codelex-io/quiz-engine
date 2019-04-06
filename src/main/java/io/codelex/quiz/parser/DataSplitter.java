@@ -29,6 +29,7 @@ public class DataSplitter {
                 question += line + "\n";
             }
         }
+        questions.add(question);
         return questions;
     }
     

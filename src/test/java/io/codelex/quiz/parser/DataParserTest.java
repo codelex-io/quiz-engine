@@ -11,6 +11,7 @@ import static org.junit.Assert.*;
 
 public class DataParserTest {
     DataFetcher dataFetcher = new DataFetcher();
+    DataSplitter splitter = new DataSplitter();
     DataParser parser = new DataParser();
     String url = "https://raw.githubusercontent.com/codelex-io/databases-quiz/master/sql/select/sql-zoo-02/QUIZME.md";
     List<String> data = dataFetcher.fetchData(url);
@@ -18,6 +19,27 @@ public class DataParserTest {
     public DataParserTest() throws Exception {
     }
 
+    @Test
+    public void testing_the_shit() {
+        //given
+        List<String> rawQuestions = splitter.splitQuestions(data);
+        
+        //when
+        List<Question> questions = parser.parseQuestions(rawQuestions);
+        
+        //then
+        for (int i = 0; i < questions.size(); i++) {
+            System.out.println(questions.get(i).getQuestion());
+            for (Answer answer : questions.get(i).getAnswers()) {
+                System.out.println(answer.getAnswer());
+            }
+            System.out.println("-------------------------------------------------------");
+        }
+    }
+    
+    
+    
+    
     @Test
     public void should_be_able_to_divide_questions_into_question_objects() {
         
