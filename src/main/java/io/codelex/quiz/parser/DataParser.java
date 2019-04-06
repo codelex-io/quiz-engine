@@ -12,15 +12,18 @@ import java.util.Optional;
 public class DataParser {
 
     public List<Question> parseQuestions(List<String> lines) {
-        return null;
-    }
-
-    private List<Question> mapQuestions(List<String> rawQuestions) {
         List<Question> questions = new ArrayList<>();
 
-        for (String question : rawQuestions) {
+        for (String question : lines) {
             String[] tst = question.split("\n\n");
             List<Answer> answers = new ArrayList<>();
+
+            if(question.charAt(1) == ')' || question.charAt(1) == '*' && !question.equals("\n\n")) {
+                answers.add(new Answer(question, question.contains("*)")));
+            }
+            else {
+
+            }
 
             for (int i = 1; i < tst.length; i++) {
                 String line = tst[i];
@@ -30,4 +33,5 @@ public class DataParser {
         }
         return questions;
     }
+
 }

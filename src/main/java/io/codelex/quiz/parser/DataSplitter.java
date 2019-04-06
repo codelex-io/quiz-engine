@@ -51,24 +51,14 @@ public class DataSplitter {
     
     HashMap<String, String> splitSnippets(String header) {
         HashMap<String, String> snippets = new HashMap<>();
-//        if(header.contains("@snippet(")) {
-//            String id = StringUtils.substringBetween(header, "@snippet(id: '", "')");
-//            String snippet = StringUtils.substringBetween(header, "@snippet(id: '" + id + "')", "@snippetEnd");
-//            snippets.put(id, snippet);
-//        }
-//        return snippets;
         
         String idFrom = "@snippet(id: '";
         String idTo = "')";
-//        String snippetTo = "@snippetEnd";
 
         Pattern idPattern = Pattern.compile(Pattern.quote(idFrom) + "(?s)(.*?)" + Pattern.quote(idTo));
         Matcher idMatcher = idPattern.matcher(header);
         while (idMatcher.find()) {
             String id = idMatcher.group(1);
-//            String snippetFrom = "@snippet(id: '" + id + "')";
-//            Pattern snippetPattern = Pattern.compile(Pattern.quote(snippetFrom) + "(?s)(.*?)" + Pattern.quote(snippetTo));
-//            Matcher snippetMatcher = snippetPattern.matcher(header);
             String snippet = StringUtils.substringBetween(header, "@snippet(id: '" + id + "')", "@snippetEnd");
             snippets.put(id, snippet);
             
