@@ -1,8 +1,8 @@
 package io.codelex.quiz.service;
 
 import io.codelex.quiz.api.AddQuestionRequest;
-import io.codelex.quiz.model.Answer;
-import io.codelex.quiz.model.Question;
+import io.codelex.quiz.model.AnswerRecord;
+import io.codelex.quiz.model.QuestionRecord;
 import io.codelex.quiz.repository.AnswerRepository;
 import io.codelex.quiz.repository.QuestionRepository;
 import org.springframework.stereotype.Component;
@@ -24,12 +24,12 @@ public class QuizService {
     }
 
 
-    public Answer saveAnswer(@Valid Answer answer) {
-        return answerRepository.save(answer);
+    public AnswerRecord saveAnswer(@Valid AnswerRecord answerRecord) {
+        return answerRepository.save(answerRecord);
     }
 
-    public Question findQuestionById(Long id) {
-        Optional<Question> question = questionRepository.findById(id);
+    public QuestionRecord findQuestionById(Long id) {
+        Optional<QuestionRecord> question = questionRepository.findById(id);
         if (question.isPresent()) {
             return question.get();
         } else {
@@ -45,7 +45,7 @@ public class QuizService {
         questionRepository.deleteById(id);
     }
 
-    public List<Question> randomdTestQuestions(int questionCount) throws NoSuchElementException {
+    public List<QuestionRecord> randomdTestQuestions(int questionCount) throws NoSuchElementException {
         if (questionCount <= 0) {
             return questionRepository.findRandomTestQuestions(questionCount);
 
@@ -54,28 +54,28 @@ public class QuizService {
         }
     }
 
-    public Question saveQuestion(Question question) {
-        question.getAnswers()
+    public QuestionRecord saveQuestion(QuestionRecord questionRecord) {
+        questionRecord.getAnswerRecords()
                 .forEach(it -> answerRepository.save(it));
-        return questionRepository.save(question);
+        return questionRepository.save(questionRecord);
     }
 
-    public Question testSaving(AddQuestionRequest request) {
-        List<Answer> answerList = new ArrayList<>();
-        Question question = new Question(request.getQuestion(),request.getCredits(), answerList);
+    public QuestionRecord testSaving(AddQuestionRequest request) {
+        List<AnswerRecord> answerRecordList = new ArrayList<>();
+        QuestionRecord questionRecord = new QuestionRecord(request.getQuestion(),request.getCredits(), answerRecordList);
         request.getAnswers()
-                .forEach(it -> answerList.add(new Answer(question, it.getAnswer(), it.isCorrect())));
+                .forEach(it -> answerRecordList.add(new AnswerRecord(questionRecord, it.getAnswer(), it.isCorrect())));
 
-//        List<Answer> answerList = new ArrayList<>();
-//        request.getAnswers()
-//                .forEach(it->answerList.add(new Answer(it.getAnswer(),it.isCorrect())));
-//        Question question = new Question(request.getQuestion(),request.getCredits());
-        for (Answer answer:answerList) {
-            saveAnswer(answer);
+//        List<AnswerRecord> answerRecordList = new ArrayList<>();
+//        request.getAnswerRecords()
+//                .forEach(it->answerRecordList.add(new AnswerRecord(it.getAnswer(),it.isCorrect())));
+//        QuestionRecord questionRecord = new QuestionRecord(request.getQuestionRecord(),request.getCredits());
+        for (AnswerRecord answerRecord : answerRecordList) {
+            saveAnswer(answerRecord);
         }
 /*
-        question.setAnswers(answerList);
+        questionRecord.setAnswerRecords(answerRecordList);
 */
-        return saveQuestion(question);
+        return saveQuestion(questionRecord);
     }
 }

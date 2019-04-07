@@ -1,7 +1,7 @@
 package io.codelex.quiz;
 
 import io.codelex.quiz.api.AddQuestionRequest;
-import io.codelex.quiz.model.Question;
+import io.codelex.quiz.model.QuestionRecord;
 import io.codelex.quiz.parser.DataFetcher;
 import io.codelex.quiz.parser.DataParser;
 import io.codelex.quiz.service.QuizService;
@@ -23,7 +23,7 @@ public class QuizController {
     }
 
     @GetMapping("/json")
-    public ResponseEntity<List<Question>> result() throws Exception {
+    public ResponseEntity<List<QuestionRecord>> result() throws Exception {
         List<String> data = dataFetcher.fetchData(url);
         return new ResponseEntity<>(parser.parse(data), HttpStatus.OK);
     }
@@ -34,7 +34,7 @@ public class QuizController {
     }
     
     @PutMapping("/test")
-    public ResponseEntity<Question>save(@RequestBody AddQuestionRequest question){
+    public ResponseEntity<QuestionRecord>save(@RequestBody AddQuestionRequest question){
         return new ResponseEntity<>(service.testSaving(question),HttpStatus.OK);
     }
 }

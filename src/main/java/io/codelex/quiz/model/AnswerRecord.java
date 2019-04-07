@@ -15,29 +15,29 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "answers")
-public class Answer {
+public class AnswerRecord {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long answerId;
     @NotEmpty
     @ManyToOne
     @JoinColumn(name = "question_id")
-    private Question question;
+    private QuestionRecord questionRecord;
     @NotNull
     private String answer;
     @NotNull
     private boolean isCorrectAnswer;
 
     @JsonCreator
-    public Answer(@JsonProperty("question") @NotEmpty Question question,
-                  @JsonProperty("answer") @NotNull String answer,
-                  @JsonProperty("isCorrectAnswer") @NotNull boolean isCorrectAnswer) {
-        this.question = question;
+    public AnswerRecord(@JsonProperty("questionRecord") @NotEmpty QuestionRecord questionRecord,
+                        @JsonProperty("answer") @NotNull String answer,
+                        @JsonProperty("isCorrectAnswer") @NotNull boolean isCorrectAnswer) {
+        this.questionRecord = questionRecord;
         this.answer = answer;
         this.isCorrectAnswer = isCorrectAnswer;
     }
 
-    public Answer(@NotNull String answer, @NotNull boolean isCorrectAnswer) {
+    public AnswerRecord(@NotNull String answer, @NotNull boolean isCorrectAnswer) {
         this.answer = answer;
         this.isCorrectAnswer = isCorrectAnswer;
     }
@@ -50,12 +50,12 @@ public class Answer {
         this.answerId = answerId;
     }
 
-    public Question getQuestion() {
-        return question;
+    public QuestionRecord getQuestionRecord() {
+        return questionRecord;
     }
 
-    public void setQuestion(Question question) {
-        this.question = question;
+    public void setQuestionRecord(QuestionRecord questionRecord) {
+        this.questionRecord = questionRecord;
     }
 
     public String getAnswer() {

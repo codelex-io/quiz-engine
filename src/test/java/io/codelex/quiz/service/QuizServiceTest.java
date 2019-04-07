@@ -1,15 +1,12 @@
 package io.codelex.quiz.service;
 
-import io.codelex.quiz.model.Answer;
-import io.codelex.quiz.model.Question;
+import io.codelex.quiz.model.AnswerRecord;
+import io.codelex.quiz.model.QuestionRecord;
 import io.codelex.quiz.repository.AnswerRepository;
 import io.codelex.quiz.repository.QuestionRepository;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.mockito.Mockito;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 
@@ -21,74 +18,74 @@ public class QuizServiceTest {
     @Test
     public void should_save_answer_objects() {
         //given
-        Answer answer = createIncorrectAnswerObject();
-        Mockito.when(answerRepository.save(any())).thenReturn(answer);
+        AnswerRecord answerRecord = createIncorrectAnswerObject();
+        Mockito.when(answerRepository.save(any())).thenReturn(answerRecord);
         //when
-        Answer answer1 = quizService.saveAnswer(answer);
+        AnswerRecord answerRecord1 = quizService.saveAnswer(answerRecord);
         //then
-        Assertions.assertEquals(answer, answer1);
+        Assertions.assertEquals(answerRecord, answerRecord1);
     }
 
     @Test
     public void should_return_error_if_answer_is_null() {
         //given
-        Answer answer = createIncorrectAnswerObject();
+        AnswerRecord answerRecord = createIncorrectAnswerObject();
         //when
         Mockito.when(answerRepository.save(any()));
         //then
-        Assertions.assertThrows(NullPointerException.class,()->{answerRepository.save(answer);});
+        Assertions.assertThrows(NullPointerException.class,()->{answerRepository.save(answerRecord);});
     }
 
     @Test
     public void should_save_question_object() {
         //given
-        Question question = createQuestionObject();
-        Mockito.when(questionRepository.save(any())).thenReturn(question);
+        QuestionRecord questionRecord = createQuestionObject();
+        Mockito.when(questionRepository.save(any())).thenReturn(questionRecord);
         //when
-        Question question1 = quizService.saveQuestion(question);
+        QuestionRecord questionRecord1 = quizService.saveQuestion(questionRecord);
         //then
-        Assertions.assertEquals(question, question1);
+        Assertions.assertEquals(questionRecord, questionRecord1);
 
     }
 
 /*
-    Question createQuestionObject() {
-        List<Answer> answers = new ArrayList<>();
-        answers.add(new Answer(
+    QuestionRecord createQuestionObject() {
+        List<AnswerRecord> answers = new ArrayList<>();
+        answers.add(new AnswerRecord(
                 1L,
                 "Spring Boot"
                 , false));
-        answers.add(new Answer(
+        answers.add(new AnswerRecord(
                 1L,
                 "Spring Boot"
                 , false));
-        answers.add(new Answer(
+        answers.add(new AnswerRecord(
                 1L,
                 "Spring Boot"
                 , false));
-        answers.add(new Answer(
+        answers.add(new AnswerRecord(
                 1L,
                 "Spring Boot v2.0"
                 , true));
-        return new Question(
+        return new QuestionRecord(
                 "Who is the best?",
                 answers,
                 "io.codelex");
     }
 
-    private List<Answer> getAnswers() {
-        List<Answer> answerList = new ArrayList<>();
-        answerList.add(new Answer(
+    private List<AnswerRecord> getAnswerRecords() {
+        List<AnswerRecord> answerList = new ArrayList<>();
+        answerList.add(new AnswerRecord(
                 null,
                 "Spring boot",
                 false
         ));
-        answerList.add(new Answer(
+        answerList.add(new AnswerRecord(
                 1L,
                 null,
                 false
         ));
-        answerList.add(new Answer(
+        answerList.add(new AnswerRecord(
                 1L,
                 "Spring boot",
                 false
@@ -96,19 +93,19 @@ public class QuizServiceTest {
         return answerList;
     }
 
-    private Answer createAnswerObject() {
-        return new Answer(
+    private AnswerRecord createAnswerObject() {
+        return new AnswerRecord(
                 1L,
                 "Spring Boot"
                 , false);
     }*/
-private Question createQuestionObject(){
-    return new Question("Jautājums?","io.codelex");
+private QuestionRecord createQuestionObject(){
+    return new QuestionRecord("Jautājums?","io.codelex");
 }
-private Answer createIncorrectAnswerObject(){
-    return new Answer("Atbilde",false);
-}private Answer createCorrectAnswerObject(){
-        return new Answer("Atbilde",true);
+private AnswerRecord createIncorrectAnswerObject(){
+    return new AnswerRecord("Atbilde",false);
+}private AnswerRecord createCorrectAnswerObject(){
+        return new AnswerRecord("Atbilde",true);
     }
 
 }

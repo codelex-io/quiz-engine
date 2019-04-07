@@ -1,15 +1,15 @@
 package io.codelex.quiz.parser;
 
 
-import io.codelex.quiz.model.Answer;
-import io.codelex.quiz.model.Question;
+import io.codelex.quiz.model.AnswerRecord;
+import io.codelex.quiz.model.QuestionRecord;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class DataParser {
 
-    public List<Question> parse(List<String> lines) {
+    public List<QuestionRecord> parse(List<String> lines) {
 
         List<String> questions = new ArrayList<>();
         String question = "";
@@ -25,17 +25,17 @@ public class DataParser {
         return mapQuestions(questions);
     }
 
-    private List<Question> mapQuestions(List<String> rawQuestions) {
-        List<Question> questions = new ArrayList<>();
+    private List<QuestionRecord> mapQuestions(List<String> rawQuestions) {
+        List<QuestionRecord> questionRecords = new ArrayList<>();
 
         for (String question : rawQuestions) {
             String[] tst = question.split("\n\n");
-            List<Answer> answers = new ArrayList<>();
+            List<AnswerRecord> answerRecords = new ArrayList<>();
 
             for (int i = 1; i < tst.length; i++) {
                 String line = tst[i];
             }
         }
-        return questions;
+        return questionRecords;
     }
 }
