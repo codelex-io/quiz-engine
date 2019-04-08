@@ -65,9 +65,9 @@ public class DataParserTest {
         //then
         assertEquals(questions.get(0).getQuestion(), question.getQuestion());
         assertEquals(questions.get(0).getAnswerList().get(0).getAnswer(), answer1.getAnswer());
-        assertEquals(questions.get(0).getAnswerList().get(0).isItCorrect(), answer1.isItCorrect());
+        assertEquals(questions.get(0).getAnswerList().get(0).isCorrect(), answer1.isCorrect());
         assertEquals(questions.get(0).getAnswerList().get(1).getAnswer(), answer2.getAnswer());
-        assertEquals(questions.get(0).getAnswerList().get(1).isItCorrect(), answer2.isItCorrect());
+        assertEquals(questions.get(0).getAnswerList().get(1).isCorrect(), answer2.isCorrect());
 
 
     }

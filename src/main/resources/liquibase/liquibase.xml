@@ -49,7 +49,7 @@
             </column>
             <column name="question_id"
                     type="bigint">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
         </createTable>
         <addForeignKeyConstraint baseTableName="answers"

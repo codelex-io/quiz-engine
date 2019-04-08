@@ -1,10 +1,12 @@
 package io.codelex.quiz.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,11 +15,15 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.util.List;  
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "questions")
 public class QuestionRecord {
+    public QuestionRecord() {
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long questionId;
@@ -25,13 +31,18 @@ public class QuestionRecord {
     private String question;
     @NotBlank
     private String credits;
-    @NotNull
-    @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true,mappedBy = "questionRecord")
+    @OneToMany(
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            mappedBy = "questionRecord")
+    @JsonManagedReference
     private List<AnswerRecord> answerRecords;
+
     @JsonCreator
-    public QuestionRecord(@JsonProperty("question")@NotEmpty String question,
-                          @JsonProperty("credits")@NotBlank String credits,
-                          @JsonProperty("answerRecords")@NotNull List<AnswerRecord> answerRecords) {
+    public QuestionRecord(@JsonProperty("question") @NotEmpty String question,
+                          @JsonProperty("credits") @NotBlank String credits,
+                          @JsonProperty("answerRecords") @NotNull List<AnswerRecord> answerRecords) {
         this.question = question;
         this.credits = credits;
         this.answerRecords = answerRecords;
@@ -41,6 +52,7 @@ public class QuestionRecord {
                           @NotBlank String credits) {
         this.question = question;
         this.credits = credits;
+        this.answerRecords=new ArrayList<>();
     }
 
     public String getCredits() {
@@ -73,6 +85,11 @@ public class QuestionRecord {
 
     public void setId(Long id) {
         this.questionId = id;
+    }
+    
+    public void addAnswerRecord(AnswerRecord answer){
+        this.answerRecords.add(answer);
+        answer.setQuestionRecord(this);
     }
 
 }

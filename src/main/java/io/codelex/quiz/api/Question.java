@@ -1,5 +1,8 @@
 package io.codelex.quiz.api;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +11,13 @@ public class Question {
     private List<Answer> answerList;
     private String credits;
 
-    public Question(String question, List<Answer> answerList, String credits) {
+    public Question() {
+    }
+
+    @JsonCreator
+    public Question(@JsonProperty("question") String question,
+                    @JsonProperty("answerList")List<Answer> answerList,
+                    @JsonProperty("credits")String credits) {
         this.question = question;
         this.answerList = answerList;
         this.credits = credits;

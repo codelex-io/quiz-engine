@@ -1,9 +1,9 @@
 package io.codelex.quiz.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,14 +20,17 @@ public class AnswerRecord {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long answerId;
-    @NotEmpty
     @ManyToOne
     @JoinColumn(name = "question_id")
+    @JsonBackReference
     private QuestionRecord questionRecord;
     @NotNull
     private String answer;
     @NotNull
     private boolean isCorrectAnswer;
+
+    public AnswerRecord() {
+    }
 
     @JsonCreator
     public AnswerRecord(@JsonProperty("questionRecord") @NotEmpty QuestionRecord questionRecord,

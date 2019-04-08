@@ -2,11 +2,14 @@ package io.codelex.quiz.api;
 
 public class Answer {
     private String answer;
-    private boolean isItCorrect;
+    private boolean correct;
 
-    public Answer(String answer, boolean isItCorrect) {
+    public Answer() {
+    }
+
+    public Answer(String answer, boolean correct) {
         this.answer = answer;
-        this.isItCorrect = isItCorrect;
+        this.correct = correct;
     }
 
     public String getAnswer() {
@@ -17,11 +20,11 @@ public class Answer {
         this.answer = answer;
     }
 
-    public boolean isItCorrect() {
-        return isItCorrect;
+    public boolean isCorrect() {
+        return correct;
     }
 
-    public void setItCorrect(boolean itCorrect) {
-        isItCorrect = itCorrect;
+    public void setCorrect(boolean correct) {
+        this.correct = correct;
     }
 }

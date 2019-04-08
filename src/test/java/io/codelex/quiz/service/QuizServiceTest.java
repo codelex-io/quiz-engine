@@ -9,6 +9,9 @@ import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.mockito.Mockito;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.mockito.ArgumentMatchers.any;
 
 public class QuizServiceTest {
@@ -16,7 +19,7 @@ public class QuizServiceTest {
     private QuestionRepository questionRepository = Mockito.mock(QuestionRepository.class);
     private PojoCreator pojoCreator = Mockito.mock(PojoCreator.class);
     private QuizService quizService = new QuizService(answerRepository, questionRepository, pojoCreator);
-
+/*
     @Test
     public void should_save_answer_objects() {
         //given
@@ -35,7 +38,9 @@ public class QuizServiceTest {
         //when
         Mockito.when(answerRepository.save(any()));
         //then
-        Assertions.assertThrows(NullPointerException.class,()->{answerRepository.save(answerRecord);});
+        Assertions.assertThrows(NullPointerException.class, () -> {
+            answerRepository.save(answerRecord);
+        });
     }
 
     @Test
@@ -48,66 +53,34 @@ public class QuizServiceTest {
         //then
         Assertions.assertEquals(questionRecord, questionRecord1);
 
+    }*/
+
+    @Test
+    public void should_save_question_with_answer_list(){
+        
     }
 
-/*
     QuestionRecord createQuestionObject() {
         List<AnswerRecord> answers = new ArrayList<>();
-        answers.add(new AnswerRecord(
-                1L,
-                "Spring Boot"
-                , false));
-        answers.add(new AnswerRecord(
-                1L,
-                "Spring Boot"
-                , false));
-        answers.add(new AnswerRecord(
-                1L,
-                "Spring Boot"
-                , false));
-        answers.add(new AnswerRecord(
-                1L,
-                "Spring Boot v2.0"
-                , true));
-        return new QuestionRecord(
-                "Who is the best?",
-                answers,
-                "io.codelex");
+        for (long i = 0; i < 4; i++) {
+            AnswerRecord record = new AnswerRecord();
+            record.setAnswerId(i);
+            record.setAnswer("Spring Boot" + i);
+            record.setCorrectAnswer(false);
+            answers.add(record);
+        }
+        AnswerRecord record = new AnswerRecord();
+        record.setAnswerId(5L);
+        record.setAnswer("Spring Boot");
+        record.setCorrectAnswer(true);
+        answers.add(record);
+        QuestionRecord questionRecord = new QuestionRecord();
+        questionRecord.setId(1L);
+        questionRecord.setQuestion("What?");
+        questionRecord.setCredits("io.codelex");
+        answers.forEach(questionRecord::addAnswerRecord);
+        return questionRecord;
     }
 
-    private List<AnswerRecord> getAnswerRecords() {
-        List<AnswerRecord> answerList = new ArrayList<>();
-        answerList.add(new AnswerRecord(
-                null,
-                "Spring boot",
-                false
-        ));
-        answerList.add(new AnswerRecord(
-                1L,
-                null,
-                false
-        ));
-        answerList.add(new AnswerRecord(
-                1L,
-                "Spring boot",
-                false
-        ));
-        return answerList;
-    }
-
-    private AnswerRecord createAnswerObject() {
-        return new AnswerRecord(
-                1L,
-                "Spring Boot"
-                , false);
-    }*/
-private QuestionRecord createQuestionObject(){
-    return new QuestionRecord("Jautājums?","io.codelex");
-}
-private AnswerRecord createIncorrectAnswerObject(){
-    return new AnswerRecord("Atbilde",false);
-}private AnswerRecord createCorrectAnswerObject(){
-        return new AnswerRecord("Atbilde",true);
-    }
 
 }
