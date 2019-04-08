@@ -10,48 +10,20 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DataParserTest {
-    private DataFetcher dataFetcher = new DataFetcher();
-    private DataSplitter splitter = new DataSplitter();
     private DataParser parser = new DataParser();
-    private String url = "https://raw.githubusercontent.com/codelex-io/databases-quiz/master/sql/select/sql-zoo-02/QUIZME.md";
-    private List<String> data = dataFetcher.fetchData(url);
-
-    public DataParserTest() throws Exception {
-    }
-
-    @Test
-    public void testing_the_shit() {
-        //given
-       List<String> rawQuestions = splitter.splitQuestions(data);
-
-        //when
-        List<Question> questions = parser.parseQuestionsWithAnswers(rawQuestions);
-
-        //then
-        for (int i = 0; i < questions.size(); i++) {
-            System.out.println(questions.get(i).getQuestion());
-            for (Answer answer : questions.get(i).getAnswerList()) {
-                System.out.println(answer.getAnswer());
-            }
-            System.out.println("-------------------------------------------------------");
-        }
-    }
-
-
     @Test
     public void should_create_question_object_with_1_incorrect_answer_and_1_correct() {
         //given
         List<String> stringList = createStringList();
         Question question = new Question(
-                "Select the code which produces this table:\n" +
-                "\n" +
-                "| name        | population |\n" +
-                "|-------------|------------|\n" +
-                "| Bahrain     | 1234571    |\n" +
-                "| Swaziland   | 1220000    |\n" +
-                "| Timor-Leste | 1066409    |\n" +
-                "| ...         |            |\n" +
-                "\n");
+                "@insertSnippet('tables')" +
+                "Select the code which produces this table:" +
+                "| name        | population |" +
+                "|-------------|------------|" +
+                "| Bahrain     | 1234571    |" +
+                "| Swaziland   | 1220000    |" +
+                "| Timor-Leste | 1066409    |" +
+                "| ...         |            |");
 
         Answer answer1 = new Answer(
                 "sql FROM world SELECT name, population BETWEEN 1000000 AND 1250000",
@@ -63,7 +35,7 @@ public class DataParserTest {
         List<Question> questions = parser.parseQuestionsWithAnswers(stringList);
 
         //then
-        assertEquals(questions.get(0).getQuestion(), question.getQuestion());
+        assertEquals(question.getQuestion(),questions.get(0).getQuestion());
         assertEquals(questions.get(0).getAnswerList().get(0).getAnswer(), answer1.getAnswer());
         assertEquals(questions.get(0).getAnswerList().get(0).isCorrect(), answer1.isCorrect());
         assertEquals(questions.get(0).getAnswerList().get(1).getAnswer(), answer2.getAnswer());
@@ -71,21 +43,18 @@ public class DataParserTest {
 
 
     }
-
+    
     @Test
-    public void should_get_credits_out_of_passed_text_file() {
-
-    }
-
-    @Test
-    public void should_get_snippets_out_of_passed_text_file() {
-
+    public void should_create_question_object_with_answers(){
+        
     }
 
     private List<String> createStringList() {
         List<String> stringList = new ArrayList<>();
         stringList.add(
-                "Select the code which produces this table:\n" +
+                
+                "@insertSnippet('tables')\n" +
+                "\nSelect the code which produces this table:\n" +
                 "\n" +
                 "| name        | population |\n" +
                 "|-------------|------------|\n" +
