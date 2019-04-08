@@ -2,6 +2,7 @@ package io.codelex.quiz.service;
 
 import io.codelex.quiz.model.AnswerRecord;
 import io.codelex.quiz.model.QuestionRecord;
+import io.codelex.quiz.parser.PojoCreator;
 import io.codelex.quiz.repository.AnswerRepository;
 import io.codelex.quiz.repository.QuestionRepository;
 import org.junit.Test;
@@ -13,7 +14,8 @@ import static org.mockito.ArgumentMatchers.any;
 public class QuizServiceTest {
     private AnswerRepository answerRepository = Mockito.mock(AnswerRepository.class);
     private QuestionRepository questionRepository = Mockito.mock(QuestionRepository.class);
-    private QuizService quizService = new QuizService(answerRepository, questionRepository);
+    private PojoCreator pojoCreator = Mockito.mock(PojoCreator.class);
+    private QuizService quizService = new QuizService(answerRepository, questionRepository, pojoCreator);
 
     @Test
     public void should_save_answer_objects() {

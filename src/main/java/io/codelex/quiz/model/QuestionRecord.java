@@ -13,7 +13,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.util.List;
+import java.util.List;  
 
 @Entity
 @Table(name = "questions")
@@ -26,7 +26,7 @@ public class QuestionRecord {
     @NotBlank
     private String credits;
     @NotNull
-    @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true,mappedBy = "question")
+    @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true,mappedBy = "questionRecord")
     private List<AnswerRecord> answerRecords;
     @JsonCreator
     public QuestionRecord(@JsonProperty("question")@NotEmpty String question,

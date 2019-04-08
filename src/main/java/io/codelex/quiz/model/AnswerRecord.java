@@ -3,6 +3,7 @@ package io.codelex.quiz.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -37,7 +38,8 @@ public class AnswerRecord {
         this.isCorrectAnswer = isCorrectAnswer;
     }
 
-    public AnswerRecord(@NotNull String answer, @NotNull boolean isCorrectAnswer) {
+    public AnswerRecord(@NotNull String answer,
+                        @NotNull boolean isCorrectAnswer) {
         this.answer = answer;
         this.isCorrectAnswer = isCorrectAnswer;
     }

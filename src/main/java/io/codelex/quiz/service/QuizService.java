@@ -1,8 +1,11 @@
 package io.codelex.quiz.service;
 
 import io.codelex.quiz.api.AddQuestionRequest;
+import io.codelex.quiz.api.Question;
+import io.codelex.quiz.api.UrlList;
 import io.codelex.quiz.model.AnswerRecord;
 import io.codelex.quiz.model.QuestionRecord;
+import io.codelex.quiz.parser.PojoCreator;
 import io.codelex.quiz.repository.AnswerRepository;
 import io.codelex.quiz.repository.QuestionRepository;
 import org.springframework.stereotype.Component;
@@ -17,13 +20,18 @@ import java.util.Optional;
 public class QuizService {
     private AnswerRepository answerRepository;
     private QuestionRepository questionRepository;
+    private PojoCreator pojoCreator;
 
-    public QuizService(AnswerRepository answerRepository, QuestionRepository questionRepository) {
+    public QuizService(AnswerRepository answerRepository, QuestionRepository questionRepository, PojoCreator pojoCreator) {
         this.answerRepository = answerRepository;
         this.questionRepository = questionRepository;
+        this.pojoCreator = pojoCreator;
     }
 
-
+    public List<Question> createQuestions(UrlList urlList)throws Exception {
+        return pojoCreator.createQuestions(urlList);
+    }
+    
     public AnswerRecord saveAnswer(@Valid AnswerRecord answerRecord) {
         return answerRepository.save(answerRecord);
     }

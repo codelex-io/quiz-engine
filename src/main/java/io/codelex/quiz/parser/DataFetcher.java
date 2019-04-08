@@ -24,10 +24,12 @@ public class DataFetcher {
             return lines;
         }
         catch (MalformedURLException e) {
-            throw new MalformedURLException("Malformed URL: " + e.getMessage());
+           throw new MalformedURLException("Malformed URL: " + e.getMessage());
         }
         catch (IOException e) {
-            throw new IOException("I/O Error: " + e.getMessage());
+          throw new IOException("I/O Error: " + e.getMessage());
+            
+
         }
     }
 }

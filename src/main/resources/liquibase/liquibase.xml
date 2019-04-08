@@ -4,17 +4,17 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
 
-    <changeSet id="create questionRecords table" author="MikusZ">
+    <changeSet id="create questions table" author="MikusZ">
         <createSequence sequenceName="question_sq_id"/>
-        <createTable tableName="questionRecords">
+        <createTable tableName="questions">
             <column name="question_id"
                     type="bigint"
                     defaultValueSequenceNext="question_sq_id">
                 <constraints primaryKey="true"
                              nullable="false"
-                             primaryKeyName="pk_flights"/>
+                             primaryKeyName="pk_question"/>
             </column>
-            <column name="questionRecord"
+            <column name="question"
                     type="text">
                 <constraints nullable="false"/>
             </column>
@@ -23,23 +23,23 @@
                 <constraints nullable="true"/>
             </column>
         </createTable>
-        <createIndex tableName="questionRecords"
+        <createIndex tableName="questions"
                      indexName="idx_question_id">
             <column name="question_id"/>
         </createIndex>
     </changeSet>
 
-    <changeSet id="create answerRecords table" author="MikusZ">
+    <changeSet id="create answers table" author="MikusZ">
         <createSequence sequenceName="answer_sq_id"/>
-        <createTable tableName="answerRecords">
+        <createTable tableName="answers">
             <column name="answer_id"
                     type="bigint"
                     defaultValueSequenceNext="answer_sq_id">
                 <constraints primaryKey="true"
                              nullable="false"
-                             primaryKeyName="pk_answers"/>
+                             primaryKeyName="pk_answer"/>
             </column>
-            <column name="answerRecord"
+            <column name="answer"
                     type="text">
                 <constraints nullable="false"/>
             </column>
@@ -52,16 +52,16 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-        <addForeignKeyConstraint baseTableName="answerRecords"
+        <addForeignKeyConstraint baseTableName="answers"
                                  baseColumnNames="question_id"
                                  constraintName="fk_question_id_answer"
-                                 referencedTableName="questionRecords"
+                                 referencedTableName="questions"
                                  referencedColumnNames="question_id"/>
-        <createIndex tableName="answerRecords"
+        <createIndex tableName="answers"
                      indexName="idx_answers_id">
             <column name="answer_id"/>
         </createIndex>
-        <createIndex tableName="answerRecords"
+        <createIndex tableName="answers"
                      indexName="idx_answers_question_id">
             <column name="question_id"/>
         </createIndex>
