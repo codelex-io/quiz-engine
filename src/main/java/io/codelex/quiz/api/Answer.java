@@ -27,4 +27,13 @@ public class Answer {
     public void setCorrect(boolean correct) {
         this.correct = correct;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Answer{");
+        sb.append("answer='").append(answer).append('\'');
+        sb.append(", correct=").append(correct);
+        sb.append('}');
+        return sb.toString();
+    }
 }

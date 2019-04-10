@@ -1,5 +1,6 @@
 package io.codelex.quiz.service;
 
+import io.codelex.quiz.IQuizService;
 import io.codelex.quiz.api.AddQuestionRequest;
 import io.codelex.quiz.api.Answer;
 import io.codelex.quiz.api.Question;
@@ -10,22 +11,23 @@ import io.codelex.quiz.parser.PojoCreator;
 import io.codelex.quiz.repository.AnswerRepository;
 import io.codelex.quiz.repository.MapQuestionRecordToQuestion;
 import io.codelex.quiz.repository.QuestionRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
-public class QuizService {
+public class QuizService implements IQuizService {
     private AnswerRepository answerRepository;
     private QuestionRepository questionRepository;
     private PojoCreator pojoCreator;
     private MapQuestionRecordToQuestion toQuestion = new MapQuestionRecordToQuestion();
-
+    private static final Logger LOG = LoggerFactory.getLogger(QuizService.class);
+    
     public QuizService(AnswerRepository answerRepository, QuestionRepository questionRepository, PojoCreator pojoCreator) {
         this.answerRepository = answerRepository;
         this.questionRepository = questionRepository;
@@ -33,10 +35,16 @@ public class QuizService {
     }
 
     public List<Question> createQuestions(UrlList urlList) throws Exception {
-        return pojoCreator.createQuestions(urlList);
+        
+        try {
+            return pojoCreator.createQuestions(urlList);
+        } catch (Exception e){
+            LOG.warn("Bad repo link", e);
+        }
+        return Collections.emptyList();
     }
 
-    public Question findQuestionById(Long id) throws Exception {
+    public Question findQuestionById(Long id) {
         Optional<QuestionRecord> question = questionRepository.findById(id);
         if (question.isPresent()) {
             return toQuestion.apply(question.get());
@@ -76,7 +84,7 @@ public class QuizService {
         return questionRepository.save(questionRecord);
     }
 
-    public AnswerRecord saveAnswer(Answer answer) {
+    private AnswerRecord saveAnswer(Answer answer) {
 
         AnswerRecord answerRecord = new AnswerRecord(
                 answer.getAnswer(),

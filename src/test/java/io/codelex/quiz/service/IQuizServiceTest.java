@@ -14,7 +14,7 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 
-public class QuizServiceTest {
+public class IQuizServiceTest {
     private AnswerRepository answerRepository = Mockito.mock(AnswerRepository.class);
     private QuestionRepository questionRepository = Mockito.mock(QuestionRepository.class);
     private PojoCreator pojoCreator = Mockito.mock(PojoCreator.class);

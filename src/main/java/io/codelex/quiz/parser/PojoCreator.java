@@ -16,14 +16,14 @@ public class PojoCreator {
     private DataParser parser = new DataParser();
     private QuestionDecorator decorator = new QuestionDecorator();
 
-    public List<Question> createQuestions(UrlList urlList) throws Exception {
+    public List<Question> createQuestions(UrlList urlList) throws Exception{
         List<Question> list = new ArrayList<>();
         for (String it : urlList.getUrlList()) {
             List<String> stringList = fetcher.fetchData(it);
             List<String> strings = splitter.splitQuestions(stringList);
-            HashMap<String,String>snippets = splitter.splitSnippets(splitter.splitHeader(stringList));
+            HashMap<String, String> snippets = splitter.splitSnippets(splitter.splitHeader(stringList));
             list = parser.parseQuestionsWithAnswers(strings);
-            list=decorator.addSnippetsToQuestions(snippets,list);
+            list = decorator.addSnippetsToQuestions(snippets, list);
         }
         return list;
     }

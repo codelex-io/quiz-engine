@@ -12,7 +12,7 @@ public class QuestionDecorator {
             for (String key: snippets.keySet()) {
                 if(question.getQuestion().contains("@insertSnippet('"+key+"')")){
                     
-                    String newQuestion=question.getQuestion().replace("@insertSnippet(id: '"+key+"')",snippets.get(key));
+                    String newQuestion=question.getQuestion().replace("@insertSnippet('"+key+"')",snippets.get(key));
                     question.setQuestion(newQuestion);
                 }
             }

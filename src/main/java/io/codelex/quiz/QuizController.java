@@ -5,23 +5,24 @@ import io.codelex.quiz.api.Question;
 import io.codelex.quiz.api.UrlList;
 import io.codelex.quiz.model.QuestionRecord;
 import io.codelex.quiz.service.QuizService;
+import io.codelex.quiz.service.pdfService.GeneratePdfReport;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 public class QuizController {
-    private QuizService service;
+    private IQuizService service;
 
-    public QuizController(QuizService service) {
+    public QuizController(IQuizService service) {
         this.service = service;
     }
 
@@ -60,13 +61,36 @@ public class QuizController {
         return new ResponseEntity<>(service.testSaving(question), HttpStatus.OK);
     }
 
-    @DeleteMapping("/questions")
+    @DeleteMapping("/questions/{id}")
     public ResponseEntity deleteQuestion(@PathVariable("id") Long id) {
         try {
             service.deleteQuestionById(id);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PostMapping(value = "/quiz/pdf",
+            produces = MediaType.APPLICATION_PDF_VALUE)
+    public ResponseEntity<InputStreamResource> generatePdf(@RequestBody UrlList urlList) {
+        try {
+            List<Question> questions = service.createQuestions(urlList);
+
+            ArrayList<Question> questionArrayList = new ArrayList<>(questions);
+
+            ByteArrayInputStream bis = GeneratePdfReport.quizInputStream(questionArrayList);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Content-Disposition", "inline; filename=quiz.pdf");
+
+            return ResponseEntity
+                    .ok()
+                    .headers(headers)
+                    .contentType(MediaType.APPLICATION_PDF)
+                    .body(new InputStreamResource(bis));
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 }

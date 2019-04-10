@@ -57,4 +57,14 @@ public class Question {
     public void setCredits(String credits) {
         this.credits = credits;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Question{");
+        sb.append("question='").append(question).append('\'');
+        sb.append(", answerList=").append(answerList);
+        sb.append(", credits='").append(credits).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }
