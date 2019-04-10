@@ -20,7 +20,8 @@ public class DataParser {
                 if(temporary.charAt(1) == ')' || temporary.charAt(1) == '*') {
                     Answer answer = new Answer("",temporary.contains("*)"));
                     String[] split = temporary.split("\\)", 2);
-                    temporary=split[1].replaceAll("\\r\\n|\\r|\\n|\\t", "").trim();
+                    String[] secondSplit =split[1].split("\\n",3);
+                    temporary=secondSplit[2].replaceAll("\\r\\n|\\r|\\n|\\t|`", "").trim();
                     answer.setAnswer(temporary);
                     answers.add(answer);
                 }

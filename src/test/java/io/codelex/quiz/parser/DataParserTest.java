@@ -35,6 +35,7 @@ public class DataParserTest {
         List<Question> questions = parser.parseQuestionsWithAnswers(stringList);
 
         //then
+        System.out.println(questions.get(0).getAnswerList().get(0));
         assertEquals(question.getQuestion(),questions.get(0).getQuestion());
         assertEquals(questions.get(0).getAnswerList().get(0).getAnswer(), answer1.getAnswer());
         assertEquals(questions.get(0).getAnswerList().get(0).isCorrect(), answer1.isCorrect());
