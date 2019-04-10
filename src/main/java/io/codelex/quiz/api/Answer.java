@@ -1,5 +1,7 @@
 package io.codelex.quiz.api;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 public class Answer {
     private String answer;
     private boolean correct;
@@ -7,6 +9,7 @@ public class Answer {
     public Answer() {
     }
 
+    @JsonCreator
     public Answer(String answer, boolean correct) {
         this.answer = answer;
         this.correct = correct;
@@ -30,10 +33,10 @@ public class Answer {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Answer{");
-        sb.append("answer='").append(answer).append('\'');
-        sb.append(", correct=").append(correct);
-        sb.append('}');
-        return sb.toString();
+        final StringBuilder string = new StringBuilder("Answer{");
+        string.append("answer='").append(answer).append('\'');
+        string.append(", correct=").append(correct);
+        string.append('}');
+        return string.toString();
     }
 }

@@ -12,8 +12,8 @@
       <entry name="!?*.clj" />
     </wildcardResourcePatterns>
     <bytecodeTargetLevel>
-      <module name="io.codelex.quiz.main" target="11" />
-      <module name="io.codelex.quiz.test" target="11" />
+      <module name="quiz.main" target="11" />
+      <module name="quiz.test" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>

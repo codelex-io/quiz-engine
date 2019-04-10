@@ -40,8 +40,8 @@ public class AnswerRecord {
         this.isCorrectAnswer = isCorrectAnswer;
     }
 
-    public AnswerRecord(@NotNull String answer,
-                        @NotNull boolean isCorrectAnswer) {
+    public AnswerRecord(String answer,
+                        boolean isCorrectAnswer) {
         this.answer = answer;
         this.isCorrectAnswer = isCorrectAnswer;
     }
@@ -58,7 +58,7 @@ public class AnswerRecord {
         return questionRecord;
     }
 
-    public void setQuestionRecord(QuestionRecord questionRecord) {
+    private void setQuestionRecord(QuestionRecord questionRecord) {
         this.questionRecord = questionRecord;
     }
 
