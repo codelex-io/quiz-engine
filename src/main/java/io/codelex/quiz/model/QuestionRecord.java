@@ -21,12 +21,10 @@ import java.util.List;
 @Entity
 @Table(name = "questions")
 public class QuestionRecord {
-    public QuestionRecord() {
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long questionId;
+
     @NotEmpty
     private String question;
     @NotBlank
@@ -39,10 +37,12 @@ public class QuestionRecord {
     @JsonManagedReference
     private List<AnswerRecord> answerRecords;
 
-    @JsonCreator
-    public QuestionRecord(@JsonProperty("question") @NotEmpty String question,
-                          @JsonProperty("credits") @NotBlank String credits,
-                          @JsonProperty("answerRecords") @NotNull List<AnswerRecord> answerRecords) {
+    public QuestionRecord() {
+    }
+
+    public QuestionRecord(String question,
+                          String credits,
+                          List<AnswerRecord> answerRecords) {
         this.question = question;
         this.credits = credits;
         this.answerRecords = answerRecords;
@@ -52,7 +52,7 @@ public class QuestionRecord {
                           @NotBlank String credits) {
         this.question = question;
         this.credits = credits;
-        this.answerRecords=new ArrayList<>();
+        this.answerRecords = new ArrayList<>();
     }
 
     public String getCredits() {
@@ -86,8 +86,8 @@ public class QuestionRecord {
     public void setId(Long id) {
         this.questionId = id;
     }
-    
-    public void addAnswerRecord(AnswerRecord answer){
+
+    public void addAnswerRecord(AnswerRecord answer) {
         this.answerRecords.add(answer);
         answer.setQuestionRecord(this);
     }

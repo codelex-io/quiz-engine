@@ -1,4 +1,4 @@
-package io.codelex.quiz.service.pdfService;
+package io.codelex.quiz.service.pdfservice;
 
 import com.itextpdf.text.*;
 

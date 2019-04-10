@@ -4,8 +4,7 @@ import io.codelex.quiz.api.AddQuestionRequest;
 import io.codelex.quiz.api.Question;
 import io.codelex.quiz.api.UrlList;
 import io.codelex.quiz.model.QuestionRecord;
-import io.codelex.quiz.service.QuizService;
-import io.codelex.quiz.service.pdfService.GeneratePdfReport;
+import io.codelex.quiz.service.pdfservice.GeneratePdfReport;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -14,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.ByteArrayInputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class AddAnswerRequest {
-    String answer;
-    boolean correct;
+    private String answer;
+    private boolean correct;
     
     @JsonCreator
     public AddAnswerRequest(@JsonProperty("answer") String answer,

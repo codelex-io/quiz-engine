@@ -32,10 +32,9 @@ public class AnswerRecord {
     public AnswerRecord() {
     }
 
-    @JsonCreator
-    public AnswerRecord(@JsonProperty("questionRecord") @NotEmpty QuestionRecord questionRecord,
-                        @JsonProperty("answer") @NotNull String answer,
-                        @JsonProperty("isCorrectAnswer") @NotNull boolean isCorrectAnswer) {
+    public AnswerRecord(QuestionRecord questionRecord,
+                        String answer,
+                        boolean isCorrectAnswer) {
         this.questionRecord = questionRecord;
         this.answer = answer;
         this.isCorrectAnswer = isCorrectAnswer;
