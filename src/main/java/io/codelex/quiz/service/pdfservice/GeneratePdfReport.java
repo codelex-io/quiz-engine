@@ -9,13 +9,20 @@ import io.codelex.quiz.api.Question;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+
 import com.itextpdf.text.List;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Component;
+
+import java.util.Collection;
+import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-        
+
+@Component
 public class GeneratePdfReport {
 
-    public static ByteArrayInputStream quizInputStream(ArrayList<Question> questionList) {
+    public static ByteArrayInputStream quizInputStream(Collection<Question> questionList) {
         Document document = new Document();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         try {
@@ -23,10 +30,13 @@ public class GeneratePdfReport {
             document.open();
             int questionIndex = 1;
             for (Question question : questionList) {
+                if (question.getQuestion().contains("|")) {
+                    StringUtils.substringBetween(question.getQuestion(), "|", "|");
+                }
+
                 Phrase questionContent = new Phrase();
                 List answerList = new List(List.ORDERED);
-                
-                questionContent.add(questionIndex++ +") " +question.getQuestion());
+                questionContent.add(questionIndex++ + ") " + question.getQuestion());
                 for (Answer answer : question.getAnswerList()) {
                     answerList.add(new ListItem(answer.getAnswer()));
                 }
@@ -34,7 +44,7 @@ public class GeneratePdfReport {
                 questionContent.add(question.getCredits());
                 document.add(questionContent);
             }
-           
+
             document.close();
 
         } catch (DocumentException ex) {

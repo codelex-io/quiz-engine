@@ -1,5 +1,6 @@
 package io.codelex.quiz;
 
+import com.qkyrie.markdown2pdf.Markdown2PdfConverter;
 import io.codelex.quiz.api.AddQuestionRequest;
 import io.codelex.quiz.api.Question;
 import io.codelex.quiz.api.UrlList;
@@ -75,9 +76,7 @@ public class QuizController {
         try {
             List<Question> questions = service.createQuestions(urlList);
 
-            ArrayList<Question> questionArrayList = new ArrayList<>(questions);
-
-            ByteArrayInputStream bis = GeneratePdfReport.quizInputStream(questionArrayList);
+            ByteArrayInputStream bis = GeneratePdfReport.quizInputStream(questions);
 
             HttpHeaders headers = new HttpHeaders();
             headers.add("Content-Disposition", "inline; filename=quiz.pdf");
@@ -91,4 +90,22 @@ public class QuizController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
-}
+
+    @PostMapping(value = "/quiz/markdown2pdf",
+            produces = MediaType.APPLICATION_PDF_VALUE)
+    public ResponseEntity<InputStreamResource> generateM2P(@RequestBody UrlList urlList) {
+            Markdown2PdfConverter markdown2PdfConverter =
+                    Markdown2PdfConverter.newConverter();
+            markdown2PdfConverter.readFrom(() -> {
+                try {
+                    return service.createQuestions(urlList).toString();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return service.randomTestQuestions(20).toString();
+                }
+            });
+            
+            
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
