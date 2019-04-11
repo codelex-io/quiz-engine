@@ -5,18 +5,24 @@ import io.codelex.quiz.api.Question;
 import java.util.HashMap;
 import java.util.List;
 
-public class QuestionDecorator {
+class QuestionDecorator {
 
-    public List<Question> addSnippetsToQuestions(HashMap<String, String> snippets, List<Question> list) {
-        for (Question question:list) {
-            for (String key: snippets.keySet()) {
-                if(question.getQuestion().contains("@insertSnippet('"+key+"')")){
-                    
-                    String newQuestion=question.getQuestion().replace("@insertSnippet('"+key+"')",snippets.get(key));
+    List<Question> addSnippetsToQuestions(HashMap<String, String> snippets, List<Question> list) {
+        for (Question question : list) {
+            for (String key : snippets.keySet()) {
+                if (question.getQuestion().contains("@insertSnippet('" + key + "')")) {
+                    String newQuestion = question.getQuestion().replace("@insertSnippet('" + key + "')", snippets.get(key).trim()+"\n");
                     question.setQuestion(newQuestion);
                 }
             }
         }
-    return list;
+        return list;
     }
+    List<Question> addCreditsToQuestions(String credit,List<Question> list){
+        for (Question question : list) {
+            question.setQuestion(question.getQuestion()+"\n"+"credits: "+credit.trim());
+        }
+        return list;
+    }
+
 }

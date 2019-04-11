@@ -20,10 +20,12 @@ public class PojoCreator {
         List<Question> list = new ArrayList<>();
         for (String it : urlList.getUrlList()) {
             List<String> stringList = fetcher.fetchData(it);
-            List<String> strings = splitter.splitQuestions(stringList);
-            HashMap<String, String> snippets = splitter.splitSnippets(splitter.splitHeader(stringList));
-            list = parser.parseQuestionsWithAnswers(strings);
+            List<String> rawQuestionString = splitter.splitQuestions(stringList);
+            String rawHeader = splitter.splitHeader(stringList);
+            HashMap<String, String> snippets = splitter.splitSnippets(rawHeader);
+            list = parser.parseQuestionsWithAnswers(rawQuestionString);
             list = decorator.addSnippetsToQuestions(snippets, list);
+            list = decorator.addCreditsToQuestions(splitter.splitCredits(rawHeader),list);
         }
         return list;
     }

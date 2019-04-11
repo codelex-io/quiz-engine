@@ -90,22 +90,4 @@ public class QuizController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
-
-    @PostMapping(value = "/quiz/markdown2pdf",
-            produces = MediaType.APPLICATION_PDF_VALUE)
-    public ResponseEntity<InputStreamResource> generateM2P(@RequestBody UrlList urlList) {
-            Markdown2PdfConverter markdown2PdfConverter =
-                    Markdown2PdfConverter.newConverter();
-            markdown2PdfConverter.readFrom(() -> {
-                try {
-                    return service.createQuestions(urlList).toString();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return service.randomTestQuestions(20).toString();
-                }
-            });
-            
-            
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
     }
