@@ -1,11 +1,9 @@
 package io.codelex.quiz.service;
 
 import io.codelex.quiz.IQuizService;
-import io.codelex.quiz.PdfCreator;
 import io.codelex.quiz.api.AddQuestionRequest;
 import io.codelex.quiz.api.Answer;
 import io.codelex.quiz.api.Question;
-import io.codelex.quiz.api.Quiz;
 import io.codelex.quiz.api.UrlList;
 import io.codelex.quiz.model.AnswerRecord;
 import io.codelex.quiz.model.QuestionRecord;
@@ -16,7 +14,6 @@ import io.codelex.quiz.repository.QuestionRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
@@ -30,18 +27,19 @@ public class QuizService implements IQuizService {
     private PojoCreator pojoCreator;
     private MapQuestionRecordToQuestion toQuestion = new MapQuestionRecordToQuestion();
     private static final Logger LOG = LoggerFactory.getLogger(QuizService.class);
-    private PdfCreator pdfCreator =  new PdfCreator();
+    private PdfCreator pdfCreator = new PdfCreator();
+
     public QuizService(AnswerRepository answerRepository, QuestionRepository questionRepository, PojoCreator pojoCreator) {
         this.answerRepository = answerRepository;
         this.questionRepository = questionRepository;
         this.pojoCreator = pojoCreator;
     }
 
-    public List<Question> createQuestions(UrlList urlList) throws IOException {
-        
+    public List<Question> createQuestions(UrlList urlList) {
+
         try {
             return pojoCreator.createQuestions(urlList);
-        } catch (Exception e){
+        } catch (Exception e) {
             LOG.warn("Bad repo link", e);
         }
         return Collections.emptyList();
