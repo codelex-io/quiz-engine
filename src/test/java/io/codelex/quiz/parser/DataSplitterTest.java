@@ -7,8 +7,6 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.List;
 
-import static org.junit.Assert.*;
-
 public class DataSplitterTest {
     private DataFetcher dataFetcher = new DataFetcher();
     private DataSplitter splitter = new DataSplitter();
@@ -29,7 +27,8 @@ public class DataSplitterTest {
     public void should_get_credits() {
         String something = splitter.splitHeader(text);
         String credits = splitter.splitCredits(something);
-        System.out.println(credits);
+
+        assertEquals("[sqlzoo.net](https://sqlzoo.net)", credits);
     }
 
     @Test

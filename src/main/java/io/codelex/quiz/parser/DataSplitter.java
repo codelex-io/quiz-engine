@@ -49,7 +49,7 @@ public class DataSplitter {
     }
 
     String splitCredits(String header) {
-        return StringUtils.substringBetween(header, "@credits", "@creditsEnd");
+        return StringUtils.substringBetween(header, "@credits", "@creditsEnd").trim();
     }
 
     HashMap<String, String> splitSnippets(String header) {
