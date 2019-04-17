@@ -1,9 +1,11 @@
 package io.codelex.quiz.service;
 
 import io.codelex.quiz.IQuizService;
+import io.codelex.quiz.PdfCreator;
 import io.codelex.quiz.api.AddQuestionRequest;
 import io.codelex.quiz.api.Answer;
 import io.codelex.quiz.api.Question;
+import io.codelex.quiz.api.Quiz;
 import io.codelex.quiz.api.UrlList;
 import io.codelex.quiz.model.AnswerRecord;
 import io.codelex.quiz.model.QuestionRecord;
@@ -27,7 +29,7 @@ public class QuizService implements IQuizService {
     private PojoCreator pojoCreator;
     private MapQuestionRecordToQuestion toQuestion = new MapQuestionRecordToQuestion();
     private static final Logger LOG = LoggerFactory.getLogger(QuizService.class);
-    
+    private PdfCreator pdfCreator =  new PdfCreator();
     public QuizService(AnswerRepository answerRepository, QuestionRepository questionRepository, PojoCreator pojoCreator) {
         this.answerRepository = answerRepository;
         this.questionRepository = questionRepository;
@@ -117,4 +119,11 @@ public class QuizService implements IQuizService {
         answerRecordList.forEach(questionRecord::addAnswerRecord);
         return questionRepository.save(questionRecord);
     }
+
+    @Override
+    public byte[] createPDF(UrlList urlList) throws Exception {
+        List<Question> questions = pojoCreator.createQuestions(urlList);
+        return pdfCreator.createPdf(questions);
+    }
+
 }

@@ -1,20 +1,25 @@
 package io.codelex.quiz;
 
-import com.qkyrie.markdown2pdf.Markdown2PdfConverter;
 import io.codelex.quiz.api.AddQuestionRequest;
 import io.codelex.quiz.api.Question;
 import io.codelex.quiz.api.UrlList;
 import io.codelex.quiz.model.QuestionRecord;
 import io.codelex.quiz.service.pdfservice.GeneratePdfReport;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.ByteArrayInputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -75,9 +80,7 @@ public class QuizController {
     public ResponseEntity<InputStreamResource> generatePdf(@RequestBody UrlList urlList) {
         try {
             List<Question> questions = service.createQuestions(urlList);
-
             ByteArrayInputStream bis = GeneratePdfReport.quizInputStream(questions);
-
             HttpHeaders headers = new HttpHeaders();
             headers.add("Content-Disposition", "inline; filename=quiz.pdf");
 
@@ -90,4 +93,19 @@ public class QuizController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    @PostMapping(value = "/quiz/markdown2pdf",
+            produces = MediaType.APPLICATION_PDF_VALUE)
+    public ResponseEntity<InputStreamResource> generateM2ToPdf(@RequestBody UrlList urlList) {
+        try {
+            service.createPDF(urlList);
+            ClassPathResource pdfFile = new ClassPathResource("/home/arnolds/IdeaProjects/quiz-engine/src/main/resources/boomshakalaka");
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.parseMediaType("application/pdf"));
+            return new ResponseEntity<>(new InputStreamResource(pdfFile.getInputStream()), headers, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
+}
