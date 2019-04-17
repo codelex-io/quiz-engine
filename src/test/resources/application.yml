@@ -4,8 +4,8 @@ spring:
     url: jdbc:tc:postgresql:latest://localhost/quiz_engine
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: validate
   liquibase:
     change-log: classpath:/liquibase/liquibase.xml
-    enabled: false
+    enabled: true
 

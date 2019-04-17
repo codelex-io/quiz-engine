@@ -1,6 +1,7 @@
 package io.codelex.quiz.parser;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,6 +9,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Component
 public class DataSplitter {
 
     List<String> splitQuestions(List<String> text) {

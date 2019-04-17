@@ -40,15 +40,8 @@ public class QuestionRecord {
     public QuestionRecord() {
     }
 
-    public QuestionRecord(String question,
-                          String credits,
-                          List<AnswerRecord> answerRecords) {
-        this.question = question;
-        this.credits = credits;
-        this.answerRecords = answerRecords;
-    }
 
-    public QuestionRecord(@NotEmpty String question,
+    public QuestionRecord(@NotEmpty String question, //todo validation?
                           @NotBlank String credits) {
         this.question = question;
         this.credits = credits;

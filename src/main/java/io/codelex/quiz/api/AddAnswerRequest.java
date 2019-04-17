@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class AddAnswerRequest {
     private String answer;
     private boolean correct;
-    
+
     @JsonCreator
     public AddAnswerRequest(@JsonProperty("answer") String answer,
                             @JsonProperty("correct") boolean correct) {
@@ -24,9 +24,5 @@ public class AddAnswerRequest {
 
     public boolean isCorrect() {
         return correct;
-    }
-
-    public void setCorrect(boolean correct) {
-        this.correct = correct;
     }
 }

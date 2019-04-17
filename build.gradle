@@ -2,7 +2,7 @@ plugins {
 	id 'org.springframework.boot' version '2.1.3.RELEASE'
 	id 'java'
 }
-
+//todo checkstyle
 apply plugin: 'io.spring.dependency-management'
 
 group = 'io.codelex'
@@ -14,6 +14,7 @@ repositories {
 }
 
 dependencies {
+	implementation 'org.eclipse.jgit:org.eclipse.jgit:5.3.0.201903130848-r'
 	implementation 'eu.de-swaef.pdf:Markdown2Pdf:2.0.1'
 	implementation 'org.apache.pdfbox:pdfbox:2.0.14'
 	implementation 'com.itextpdf:itextpdf:5.5.13'

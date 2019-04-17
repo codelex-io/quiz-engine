@@ -30,16 +30,9 @@ public class AddQuestionRequest {
     public List<AddAnswerRequest> getAnswers() {
         return answers;
     }
-
-    public void setAnswers(List<AddAnswerRequest> answers) {
-        this.answers = answers;
-    }
-
+    
     public String getCredits() {
         return credits;
     }
 
-    public void setCredits(String credits) {
-        this.credits = credits;
-    }
 }

@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -34,7 +35,7 @@ public class QuizService implements IQuizService {
         this.pojoCreator = pojoCreator;
     }
 
-    public List<Question> createQuestions(UrlList urlList) throws Exception {
+    public List<Question> createQuestions(UrlList urlList) throws IOException {
         
         try {
             return pojoCreator.createQuestions(urlList);

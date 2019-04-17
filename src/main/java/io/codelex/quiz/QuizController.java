@@ -5,6 +5,7 @@ import io.codelex.quiz.api.AddQuestionRequest;
 import io.codelex.quiz.api.Question;
 import io.codelex.quiz.api.UrlList;
 import io.codelex.quiz.model.QuestionRecord;
+import io.codelex.quiz.repocrawler.RepositoryGateway;
 import io.codelex.quiz.service.pdfservice.GeneratePdfReport;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -14,19 +15,22 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.ByteArrayInputStream;
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api")
 public class QuizController {
     private IQuizService service;
-
-    public QuizController(IQuizService service) {
+    private RepositoryGateway gateway;
+    
+    public QuizController(IQuizService service, RepositoryGateway gateway) {
+        this.gateway = gateway;
         this.service = service;
     }
     
     @CrossOrigin
-    @PostMapping("/test")
+    @PostMapping("/quiz")
     public ResponseEntity<List<Question>> testCreatePOJOS(@RequestBody UrlList urlList) {
         try {
             return new ResponseEntity<>(service.createQuestions(urlList), HttpStatus.OK);
@@ -36,21 +40,12 @@ public class QuizController {
         }
     }
 
-    @PutMapping("/questions")
+    @PutMapping("/quiz")
     public ResponseEntity<QuestionRecord> createTest(@RequestBody Question question) {
         return new ResponseEntity<>(service.saveQuestion(question), HttpStatus.OK);
     }
 
-    @GetMapping("questions/{id}")
-    public ResponseEntity<Question> findQuestionById(@PathVariable("id") Long id) {
-        try {
-            return new ResponseEntity<>(service.findQuestionById(id), HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @GetMapping("quizzes/{count}")
+    @GetMapping("/quizzes/{count}")
     public ResponseEntity<List<Question>> createQuiz(@PathVariable("count") int count) {
         return new ResponseEntity<>(service.randomTestQuestions(count), HttpStatus.OK);
     }
@@ -86,8 +81,8 @@ public class QuizController {
                     .headers(headers)
                     .contentType(MediaType.APPLICATION_PDF)
                     .body(new InputStreamResource(bis));
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (IOException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);       
         }
     }
     }

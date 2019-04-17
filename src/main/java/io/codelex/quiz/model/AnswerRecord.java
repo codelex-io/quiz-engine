@@ -31,14 +31,6 @@ public class AnswerRecord {
     public AnswerRecord() {
     }
 
-    public AnswerRecord(QuestionRecord questionRecord,
-                        String answer,
-                        boolean isCorrectAnswer) {
-        this.questionRecord = questionRecord;
-        this.answer = answer;
-        this.isCorrectAnswer = isCorrectAnswer;
-    }
-
     public AnswerRecord(String answer,
                         boolean isCorrectAnswer) {
         this.answer = answer;

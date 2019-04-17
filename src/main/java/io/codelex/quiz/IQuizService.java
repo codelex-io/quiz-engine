@@ -5,10 +5,11 @@ import io.codelex.quiz.api.Question;
 import io.codelex.quiz.api.UrlList;
 import io.codelex.quiz.model.QuestionRecord;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface IQuizService {
-    List<Question> createQuestions(UrlList urlList) throws Exception;
+    List<Question> createQuestions(UrlList urlList) throws IOException;
 
     Question findQuestionById(Long id);
 

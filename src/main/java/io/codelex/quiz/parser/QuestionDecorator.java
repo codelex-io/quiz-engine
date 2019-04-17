@@ -1,10 +1,12 @@
 package io.codelex.quiz.parser;
 
 import io.codelex.quiz.api.Question;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.List;
 
+@Component
 class QuestionDecorator {
 
     List<Question> addSnippetsToQuestions(HashMap<String, String> snippets, List<Question> list) {

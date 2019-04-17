@@ -8,8 +8,7 @@ public class Answer {
 
     public Answer() {
     }
-
-    @JsonCreator
+    
     public Answer(String answer, boolean correct) {
         this.answer = answer;
         this.correct = correct;

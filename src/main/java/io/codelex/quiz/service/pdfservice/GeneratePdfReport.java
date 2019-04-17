@@ -4,6 +4,8 @@ import com.itextpdf.text.*;
 
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.lowagie.text.pdf.PdfPCell;
+import com.lowagie.text.pdf.PdfTable;
 import io.codelex.quiz.api.Answer;
 import io.codelex.quiz.api.Question;
 
@@ -15,12 +17,14 @@ import com.itextpdf.text.List;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
+import javax.print.DocFlavor;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Component
 public class GeneratePdfReport {
@@ -34,29 +38,30 @@ public class GeneratePdfReport {
             int questionIndex = 1;
             for (Question question : questionList) {
                 Collection<String> questionLine = new ArrayList<>();
+                String stringFrom = question.getQuestion();
                 question.getQuestion().lines().forEach(questionLine::add);
                 Phrase questionContent = new Phrase();
                 List answerList = new List(List.ORDERED);
-                
-                
-                
-
-                int columnCount = 0;
-                String[] cells;
                 for (String line : questionLine) {
-                    if(line.contains("|")) {
-                        String[] cols = line.split("\\|");
-                        columnCount = cols.length; //might need +1, lets see how it goes
+                    if (StringUtils.countMatches(line, "|") > 1) {
+                        int columnCount = StringUtils.countMatches(line, "|") - 1;
+                        PdfPTable snippetTable = new PdfPTable(columnCount);
+//                        for (int i = 0; i < columnCount; i++) {
+//                            String data = StringUtils.substringBetween(stringFrom, "|", "|").trim();
+//                            String[] strings = stringFrom.split("|", 3);
+//                            stringFrom = strings[2];
+//                            snippetTable.addCell(data);
+//                        }
+                        Pattern idPattern = Pattern.compile("\\|+\\w+\\s+\\|");
+                        Matcher idMatcher = idPattern.matcher(line);
+                        while (idMatcher.find()) {
+                            snippetTable.addCell(idMatcher.group());
+                        }
                         
+                        questionContent.add(snippetTable);
                     }
                 }
-                PdfPTable snippetTable = new PdfPTable(columnCount);
-//                snippetTable.addCell();
-                questionContent.add(snippetTable);
-                
-                
-                
-                
+
                 questionContent.add(questionIndex++ + ") " + question.getQuestion());
                 for (Answer answer : question.getAnswerList()) {
                     answerList.add(new ListItem(answer.getAnswer()));
