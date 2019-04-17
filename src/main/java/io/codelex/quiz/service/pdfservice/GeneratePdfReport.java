@@ -2,6 +2,7 @@ package io.codelex.quiz.service.pdfservice;
 
 import com.itextpdf.text.*;
 
+import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import io.codelex.quiz.api.Answer;
 import io.codelex.quiz.api.Question;
@@ -18,6 +19,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Component
 public class GeneratePdfReport {
@@ -30,12 +33,30 @@ public class GeneratePdfReport {
             document.open();
             int questionIndex = 1;
             for (Question question : questionList) {
-                if (question.getQuestion().contains("|")) {
-                    StringUtils.substringBetween(question.getQuestion(), "|", "|");
-                }
-
+                Collection<String> questionLine = new ArrayList<>();
+                question.getQuestion().lines().forEach(questionLine::add);
                 Phrase questionContent = new Phrase();
                 List answerList = new List(List.ORDERED);
+                
+                
+                
+
+                int columnCount = 0;
+                String[] cells;
+                for (String line : questionLine) {
+                    if(line.contains("|")) {
+                        String[] cols = line.split("\\|");
+                        columnCount = cols.length; //might need +1, lets see how it goes
+                        
+                    }
+                }
+                PdfPTable snippetTable = new PdfPTable(columnCount);
+//                snippetTable.addCell();
+                questionContent.add(snippetTable);
+                
+                
+                
+                
                 questionContent.add(questionIndex++ + ") " + question.getQuestion());
                 for (Answer answer : question.getAnswerList()) {
                     answerList.add(new ListItem(answer.getAnswer()));

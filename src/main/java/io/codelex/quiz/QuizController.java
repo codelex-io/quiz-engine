@@ -24,8 +24,8 @@ public class QuizController {
     public QuizController(IQuizService service) {
         this.service = service;
     }
-
-
+    
+    @CrossOrigin
     @PostMapping("/test")
     public ResponseEntity<List<Question>> testCreatePOJOS(@RequestBody UrlList urlList) {
         try {
