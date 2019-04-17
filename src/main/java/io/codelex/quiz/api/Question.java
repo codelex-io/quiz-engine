@@ -60,11 +60,11 @@ public class Question {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Question{");
-        sb.append("question='").append(question).append('\'');
-        sb.append(", answerList=").append(answerList);
-        sb.append(", credits='").append(credits).append('\'');
-        sb.append('}');
-        return sb.toString();
+        String questionReturn="";
+        questionReturn+="\n"+question;
+        for (Answer answer: answerList) {
+            questionReturn+="\n"+answer.toString();
+        }
+        return questionReturn;
     }
 }

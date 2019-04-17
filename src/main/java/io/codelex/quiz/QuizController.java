@@ -5,7 +5,6 @@ import io.codelex.quiz.api.AddQuestionRequest;
 import io.codelex.quiz.api.Question;
 import io.codelex.quiz.api.UrlList;
 import io.codelex.quiz.model.QuestionRecord;
-import io.codelex.quiz.repocrawler.RepositoryGateway;
 import io.codelex.quiz.service.pdfservice.GeneratePdfReport;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -15,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -34,17 +32,27 @@ public class QuizController {
     public ResponseEntity<List<Question>> testCreatePOJOS(@RequestBody UrlList urlList) {
         try {
             return new ResponseEntity<>(service.createQuestions(urlList), HttpStatus.OK);
+
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
-    @PutMapping("/quiz")
+    @PutMapping("/questions")
     public ResponseEntity<QuestionRecord> createTest(@RequestBody Question question) {
         return new ResponseEntity<>(service.saveQuestion(question), HttpStatus.OK);
     }
 
-    @GetMapping("/quizzes/{count}")
+    @GetMapping("questions/{id}")
+    public ResponseEntity<Question> findQuestionById(@PathVariable("id") Long id) {
+        try {
+            return new ResponseEntity<>(service.findQuestionById(id), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("quizzes/{count}")
     public ResponseEntity<List<Question>> createQuiz(@PathVariable("count") int count) {
         return new ResponseEntity<>(service.randomTestQuestions(count), HttpStatus.OK);
     }
@@ -69,9 +77,7 @@ public class QuizController {
     public ResponseEntity<InputStreamResource> generatePdf(@RequestBody UrlList urlList) {
         try {
             List<Question> questions = service.createQuestions(urlList);
-
             ByteArrayInputStream bis = GeneratePdfReport.quizInputStream(questions);
-
             HttpHeaders headers = new HttpHeaders();
             headers.add("Content-Disposition", "inline; filename=quiz.pdf");
 
@@ -84,4 +90,18 @@ public class QuizController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);       
         }
     }
+
+    @PostMapping(value = "/quiz/markdown2pdf",
+            produces = MediaType.APPLICATION_PDF_VALUE)
+    public ResponseEntity<InputStreamResource> generateM2ToPdf(@RequestBody UrlList urlList) {
+        try {
+            service.createPDF(urlList);
+            ClassPathResource pdfFile = new ClassPathResource("/home/arnolds/IdeaProjects/quiz-engine/src/main/resources/boomshakalaka");
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.parseMediaType("application/pdf"));
+            return new ResponseEntity<>(new InputStreamResource(pdfFile.getInputStream()), headers, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }

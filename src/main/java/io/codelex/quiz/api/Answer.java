@@ -32,10 +32,15 @@ public class Answer {
 
     @Override
     public String toString() {
+        return answer;
+    }
+    
+    /*    @Override
+    public String toString() {
         final StringBuilder string = new StringBuilder("Answer{");
         string.append("answer='").append(answer).append('\'');
         string.append(", correct=").append(correct);
         string.append('}');
         return string.toString();
-    }
+    }*/
 }
