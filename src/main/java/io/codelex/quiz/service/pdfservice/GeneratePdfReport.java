@@ -46,12 +46,6 @@ public class GeneratePdfReport {
                     if (StringUtils.countMatches(line, "|") > 1) {
                         int columnCount = StringUtils.countMatches(line, "|") - 1;
                         PdfPTable snippetTable = new PdfPTable(columnCount);
-//                        for (int i = 0; i < columnCount; i++) {
-//                            String data = StringUtils.substringBetween(stringFrom, "|", "|").trim();
-//                            String[] strings = stringFrom.split("|", 3);
-//                            stringFrom = strings[2];
-//                            snippetTable.addCell(data);
-//                        }
                         Pattern idPattern = Pattern.compile("\\|+\\w+\\s+\\|");
                         Matcher idMatcher = idPattern.matcher(line);
                         while (idMatcher.find()) {

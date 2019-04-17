@@ -37,10 +37,8 @@ public class RepositoryGateway {
             ArrayList<String> urlArray = new ArrayList<>();
             fileList.forEach(it -> urlArray.add(it.toString()));
 
-            UrlList urlList = new UrlList(urlArray);
-            FileUtils.deleteDirectory(new File("resources/quizrepository"));
-
-            return urlList;
+            return new UrlList(urlArray);
+            
         } throw new IOException();
     }
 

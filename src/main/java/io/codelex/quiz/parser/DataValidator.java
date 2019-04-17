@@ -1,8 +1,11 @@
 package io.codelex.quiz.parser;
 
+import org.springframework.stereotype.Component;
+
 import java.io.IOException;
 import java.util.*;
 
+@Component
 public class DataValidator {
     boolean isValid(List<String> questions) throws Exception {
         boolean validated = false;

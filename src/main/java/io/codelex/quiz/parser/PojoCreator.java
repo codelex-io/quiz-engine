@@ -11,7 +11,6 @@ import java.util.List;
 
 @Component
 public class PojoCreator {
-    //todo maybe use injection?
     private DataFetcher fetcher;
     private DataSplitter splitter;
     private DataValidator validator;

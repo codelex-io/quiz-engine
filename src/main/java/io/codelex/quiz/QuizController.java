@@ -34,7 +34,6 @@ public class QuizController {
     public ResponseEntity<List<Question>> testCreatePOJOS(@RequestBody UrlList urlList) {
         try {
             return new ResponseEntity<>(service.createQuestions(urlList), HttpStatus.OK);
-
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
