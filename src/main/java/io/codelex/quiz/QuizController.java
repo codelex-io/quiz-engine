@@ -5,7 +5,9 @@ import io.codelex.quiz.api.AddQuestionRequest;
 import io.codelex.quiz.api.Question;
 import io.codelex.quiz.api.UrlList;
 import io.codelex.quiz.model.QuestionRecord;
+import io.codelex.quiz.repocrawler.RepositoryGateway;
 import io.codelex.quiz.service.pdfservice.GeneratePdfReport;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -14,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -21,12 +24,12 @@ import java.util.List;
 public class QuizController {
     private IQuizService service;
     private RepositoryGateway gateway;
-    
+
     public QuizController(IQuizService service, RepositoryGateway gateway) {
         this.gateway = gateway;
         this.service = service;
     }
-    
+
     @CrossOrigin
     @PostMapping("/quiz")
     public ResponseEntity<List<Question>> testCreatePOJOS(@RequestBody UrlList urlList) {
@@ -87,7 +90,7 @@ public class QuizController {
                     .contentType(MediaType.APPLICATION_PDF)
                     .body(new InputStreamResource(bis));
         } catch (IOException e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);       
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -105,3 +108,4 @@ public class QuizController {
         }
         return null;
     }
+}
