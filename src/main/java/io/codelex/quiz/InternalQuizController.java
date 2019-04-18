@@ -28,10 +28,10 @@ public class InternalQuizController {
     }
 
     @PostMapping("/quiz")
-    public ResponseEntity<List<AddQuestionRequest>> addQuestionsByRawMd(@RequestBody UrlList urlList) throws IOException {
+    public ResponseEntity<List<Question>> addQuestionsByRawMd(@RequestBody UrlList urlList) throws IOException {
         List<Question> readyQuestionList = new ArrayList<>();
-        List<Question> questionList = service.createQuestions(urlList);
-        for (Question question : questionList) {
+        List<AddQuestionRequest> questionList = service.createQuestions(urlList);
+        for (AddQuestionRequest question : questionList) {
             readyQuestionList.add(service.saveQuestion(question));
         }
         return new ResponseEntity<>(readyQuestionList, HttpStatus.OK);

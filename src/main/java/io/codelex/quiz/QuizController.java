@@ -35,15 +35,15 @@ public class QuizController {
 
     @CrossOrigin
     @PostMapping("/quiz/{count}")
-    public ResponseEntity<List<Question>> testCreatePOJOS(@RequestBody UrlList urlList, @PathVariable(value = "count", required = false) Long count) {
+    public ResponseEntity<List<AddQuestionRequest>> publicTestCreator(@RequestBody UrlList urlList, @PathVariable(value = "count", required = false) Long count) {
         try {
             if (count > 0) {
-                List<Question> rawTest = service.createQuestions(urlList);
-                for (Question question : rawTest) {
-                    Collections.shuffle(question.getAnswerList());
+                List<AddQuestionRequest> rawTest = service.createQuestions(urlList);
+                for (AddQuestionRequest question : rawTest) {
+                    Collections.shuffle(question.getAnswers());
                 }
                 Collections.shuffle(rawTest);
-                List<Question> deployableTest = new ArrayList<>();
+                List<AddQuestionRequest> deployableTest = new ArrayList<>();
                 for (int i = 0; i < count; i++) {
                     deployableTest.add(rawTest.get(i));
                 }
@@ -57,7 +57,7 @@ public class QuizController {
     }
 
     @GetMapping("/quiz/{count}")
-    public ResponseEntity<List<Question>> createQuiz(@PathVariable("count") int count) {
+    public ResponseEntity<List<Question>> createQuiz(@PathVariable(value = "count") int count) {
         return new ResponseEntity<>(service.randomTestQuestions(count), HttpStatus.OK);
     }
 

@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.List;
 
 public interface IQuizService {
-    List<Question> createQuestions(UrlList urlList) throws IOException;
+    List<AddQuestionRequest> createQuestions(UrlList urlList) throws IOException;
 
     Question findQuestionById(Long id);
 
