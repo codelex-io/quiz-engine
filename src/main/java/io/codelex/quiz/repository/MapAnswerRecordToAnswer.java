@@ -9,8 +9,8 @@ public class MapAnswerRecordToAnswer implements Function<AnswerRecord, Answer> {
     @Override
     public Answer apply(AnswerRecord record) {
         return new Answer(
-                record.getAnswer(),
-                record.isCorrectAnswer()
+                record.getAnswerId(),
+                record.getAnswer()
         );
     }
 }

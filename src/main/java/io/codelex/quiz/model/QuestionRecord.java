@@ -27,7 +27,6 @@ public class QuestionRecord {
 
     @NotEmpty
     private String question;
-    @NotBlank
     private String credits;
     @OneToMany(
             fetch = FetchType.LAZY,
@@ -41,8 +40,8 @@ public class QuestionRecord {
     }
 
 
-    public QuestionRecord(@NotEmpty String question, //todo validation?
-                          @NotBlank String credits) {
+    public QuestionRecord(String question,
+                          String credits) {
         this.question = question;
         this.credits = credits;
         this.answerRecords = new ArrayList<>();

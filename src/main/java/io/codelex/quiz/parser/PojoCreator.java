@@ -1,5 +1,6 @@
 package io.codelex.quiz.parser;
 
+import io.codelex.quiz.api.AddQuestionRequest;
 import io.codelex.quiz.api.Question;
 import io.codelex.quiz.api.UrlList;
 import org.springframework.stereotype.Component;
@@ -25,8 +26,8 @@ public class PojoCreator {
         this.decorator = decorator;
     }
 
-    public List<Question> createQuestions(UrlList urlList) throws IOException {
-        List<Question> list = new ArrayList<>();
+    public List<AddQuestionRequest> createQuestions(UrlList urlList) throws IOException {
+        List<AddQuestionRequest> list = new ArrayList<>();
         for (String it : urlList.getUrlList()) {
             List<String> stringList = fetcher.fetchData(it);
             List<String> rawQuestionString = splitter.splitQuestions(stringList);

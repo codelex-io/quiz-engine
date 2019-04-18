@@ -19,7 +19,7 @@ public interface IQuizService {
 
     List<Question> randomTestQuestions(int questionCount);
 
-    QuestionRecord saveQuestion(Question question);
+    Question saveQuestion(AddQuestionRequest question);
 
     QuestionRecord testSaving(AddQuestionRequest request);
 

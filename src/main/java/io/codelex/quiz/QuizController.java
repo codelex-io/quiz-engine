@@ -7,6 +7,7 @@ import io.codelex.quiz.api.UrlList;
 import io.codelex.quiz.model.QuestionRecord;
 import io.codelex.quiz.repocrawler.RepositoryGateway;
 import io.codelex.quiz.service.pdfservice.GeneratePdfReport;
+import org.hibernate.mapping.Collection;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -31,9 +34,21 @@ public class QuizController {
     }
 
     @CrossOrigin
-    @PostMapping("/quiz")
-    public ResponseEntity<List<Question>> testCreatePOJOS(@RequestBody UrlList urlList) {
+    @PostMapping("/quiz/{count}")
+    public ResponseEntity<List<Question>> testCreatePOJOS(@RequestBody UrlList urlList, @PathVariable(value = "count", required = false) Long count) {
         try {
+            if (count > 0) {
+                List<Question> rawTest = service.createQuestions(urlList);
+                for (Question question : rawTest) {
+                    Collections.shuffle(question.getAnswerList());
+                }
+                Collections.shuffle(rawTest);
+                List<Question> deployableTest = new ArrayList<>();
+                for (int i = 0; i < count; i++) {
+                    deployableTest.add(rawTest.get(i));
+                }
+                return new ResponseEntity<>(deployableTest, HttpStatus.OK);
+            }
             return new ResponseEntity<>(service.createQuestions(urlList), HttpStatus.OK);
 
         } catch (Exception e) {
@@ -41,28 +56,9 @@ public class QuizController {
         }
     }
 
-    @PutMapping("/questions")
-    public ResponseEntity<QuestionRecord> createTest(@RequestBody Question question) {
-        return new ResponseEntity<>(service.saveQuestion(question), HttpStatus.OK);
-    }
-
-    @GetMapping("questions/{id}")
-    public ResponseEntity<Question> findQuestionById(@PathVariable("id") Long id) {
-        try {
-            return new ResponseEntity<>(service.findQuestionById(id), HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @GetMapping("quizzes/{count}")
+    @GetMapping("/quiz/{count}")
     public ResponseEntity<List<Question>> createQuiz(@PathVariable("count") int count) {
         return new ResponseEntity<>(service.randomTestQuestions(count), HttpStatus.OK);
-    }
-
-    @PutMapping("/test")
-    public ResponseEntity<QuestionRecord> save(@RequestBody AddQuestionRequest question) {
-        return new ResponseEntity<>(service.testSaving(question), HttpStatus.OK);
     }
 
     @DeleteMapping("/questions/{id}")
@@ -75,7 +71,7 @@ public class QuizController {
         }
     }
 
-    @PostMapping(value = "/quiz/pdf",
+  /*  @PostMapping(value = "/quiz/pdf",
             produces = MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<InputStreamResource> generatePdf(@RequestBody UrlList urlList) {
         try {
@@ -92,7 +88,7 @@ public class QuizController {
         } catch (IOException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-    }
+    }*/
 
     @PostMapping(value = "/quiz/markdown2pdf",
             produces = MediaType.APPLICATION_PDF_VALUE)

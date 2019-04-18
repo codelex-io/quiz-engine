@@ -1,14 +1,12 @@
 package io.codelex.quiz.service;
 
 import io.codelex.quiz.IQuizService;
-import io.codelex.quiz.api.AddQuestionRequest;
-import io.codelex.quiz.api.Answer;
-import io.codelex.quiz.api.Question;
-import io.codelex.quiz.api.UrlList;
+import io.codelex.quiz.api.*;
 import io.codelex.quiz.model.AnswerRecord;
 import io.codelex.quiz.model.QuestionRecord;
 import io.codelex.quiz.parser.PojoCreator;
 import io.codelex.quiz.repository.AnswerRepository;
+import io.codelex.quiz.repository.MapAddQuestionToQuestion;
 import io.codelex.quiz.repository.MapQuestionRecordToQuestion;
 import io.codelex.quiz.repository.QuestionRepository;
 import org.slf4j.Logger;
@@ -16,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
-import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -25,6 +22,7 @@ public class QuizService implements IQuizService {
     private AnswerRepository answerRepository;
     private QuestionRepository questionRepository;
     private PojoCreator pojoCreator;
+    private MapAddQuestionToQuestion mapAddQuestionToQuestion = new MapAddQuestionToQuestion();
     private MapQuestionRecordToQuestion toQuestion = new MapQuestionRecordToQuestion();
     private static final Logger LOG = LoggerFactory.getLogger(QuizService.class);
     private PdfCreator pdfCreator = new PdfCreator();
@@ -36,9 +34,11 @@ public class QuizService implements IQuizService {
     }
 
     public List<Question> createQuestions(UrlList urlList) {
-
         try {
-            return pojoCreator.createQuestions(urlList);
+            List<Question> questionList = new ArrayList<>();
+            pojoCreator.createQuestions(urlList)
+                    .forEach(it -> questionList.add(mapAddQuestionToQuestion.apply(it)));
+            return questionList;
         } catch (Exception e) {
             LOG.warn("Bad repo link", e);
         }
@@ -69,23 +69,23 @@ public class QuizService implements IQuizService {
     }
 
     @Transactional
-    public QuestionRecord saveQuestion(Question question) {
+    public Question saveQuestion(AddQuestionRequest question) {
         List<AnswerRecord> answerRecords = new ArrayList<>();
 
         QuestionRecord questionRecord = new QuestionRecord(
                 question.getQuestion(),
                 question.getCredits());
         questionRecord = questionRepository.save(questionRecord);
-        for (Answer answer : question.getAnswerList()) {
+        for (AddAnswerRequest answer : question.getAnswers()) {
             AnswerRecord record = saveAnswer(answer);
             answerRecords.add(record);
         }
 
         answerRecords.forEach(questionRecord::addAnswerRecord);
-        return questionRepository.save(questionRecord);
+        return toQuestion.apply(questionRepository.save(questionRecord));
     }
 
-    private AnswerRecord saveAnswer(Answer answer) {
+    private AnswerRecord saveAnswer(AddAnswerRequest answer) {
 
         AnswerRecord answerRecord = new AnswerRecord(
                 answer.getAnswer(),
@@ -121,8 +121,9 @@ public class QuizService implements IQuizService {
 
     @Override
     public byte[] createPDF(UrlList urlList) throws Exception {
-        List<Question> questions = pojoCreator.createQuestions(urlList);
-        return pdfCreator.createPdf(questions);
+//        List<Question> questions = pojoCreator.createQuestions(urlList);
+//        return pdfCreator.createPdf(questions);
+        return null;
     }
 
 }

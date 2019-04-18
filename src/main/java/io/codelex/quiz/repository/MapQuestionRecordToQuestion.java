@@ -17,7 +17,8 @@ public class MapQuestionRecordToQuestion implements Function<QuestionRecord, Que
         return new Question(
                 record.getQuestion(),
                 answerList,
-                record.getCredits()
-        );
+                record.getCredits(),
+                record.getId()
+                );
     }
 }

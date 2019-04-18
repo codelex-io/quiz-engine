@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Question {
+    private Long id;
     private String question;
     private List<Answer> answerList;
     private String credits;
@@ -16,22 +17,25 @@ public class Question {
 
     @JsonCreator
     public Question(@JsonProperty("question") String question,
-                    @JsonProperty("answerList")List<Answer> answerList,
-                    @JsonProperty("credits")String credits) {
+                    @JsonProperty("answerList") List<Answer> answerList,
+                    @JsonProperty("credits") String credits,
+                    @JsonProperty("id") Long id) {
+        this.id = id;
         this.question = question;
         this.answerList = answerList;
         this.credits = credits;
     }
+
     public Question(String question, List<Answer> answerList) {
         this.question = question;
         this.answerList = answerList;
-        this.credits=null;
+        this.credits = null;
     }
 
     public Question(String question) {
         this.question = question;
-        this.answerList=new ArrayList<>();
-        this.credits=null;
+        this.answerList = new ArrayList<>();
+        this.credits = null;
     }
 
     public String getQuestion() {
@@ -60,10 +64,10 @@ public class Question {
 
     @Override
     public String toString() {
-        String questionReturn="";
-        questionReturn+="\n"+question;
-        for (Answer answer: answerList) {
-            questionReturn+="\n"+answer.toString();
+        String questionReturn = "";
+        questionReturn += "\n" + question;
+        for (Answer answer : answerList) {
+            questionReturn += "\n" + answer.toString();
         }
         return questionReturn;
     }
