@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DataParserTest {
     private DataParser parser = new DataParser();
-    @Test
+   /* @Test
     public void should_create_question_object_with_1_incorrect_answer_and_1_correct() {
         //given
         List<String> stringList = createStringList();
@@ -36,7 +36,7 @@ public class DataParserTest {
 
         //then
         System.out.println(questions.get(0).getAnswerList().get(0));
-        System.out.println(questions.get(0).getQuestion());
+        System.out.println(questions.get(0).getQuestion());*/
         /*
         todo?
         assertEquals(question.getQuestion(),questions.get(0).getQuestion());
@@ -46,7 +46,7 @@ public class DataParserTest {
         assertEquals(questions.get(0).getAnswerList().get(1).isCorrect(), answer2.isCorrect());
 */
 
-    }
+   // }
     
     @Test
     public void should_create_question_object_with_answers(){

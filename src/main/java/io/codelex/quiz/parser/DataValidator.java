@@ -7,7 +7,7 @@ import java.util.*;
 
 @Component
 public class DataValidator {
-    boolean isValid(List<String> questions) throws Exception {
+    boolean isValid(List<String> questions) throws IOException {
         boolean validated = false;
         for (int i = 0; i < questions.size(); i++) {
             String question = questions.get(i);
@@ -19,7 +19,7 @@ public class DataValidator {
         return validated;
     }
     
-    private boolean hasAnyAnswers(String question, int questionId) throws Exception {
+    private boolean hasAnyAnswers(String question, int questionId) throws IOException {
         if (question.contains("a)") || question.contains("b)")) {
             return hasRightAnswer(question, questionId);
         }
@@ -28,7 +28,7 @@ public class DataValidator {
         }
     }
     
-    private boolean hasRightAnswer(String question, int questionId) throws Exception {
+    private boolean hasRightAnswer(String question, int questionId) throws IOException {
         String[] lines = question.split("\n\n");
         boolean foundCorrectAnswer = false;
 
@@ -46,7 +46,7 @@ public class DataValidator {
         }
     }
     
-    private boolean hasNoDuplicates(String question, int questionId) throws Exception {
+    private boolean hasNoDuplicates(String question, int questionId) throws IOException {
         String[] lines = question.split("\n\n");
         Set<String> items = new HashSet<>(Arrays.asList(lines));
         

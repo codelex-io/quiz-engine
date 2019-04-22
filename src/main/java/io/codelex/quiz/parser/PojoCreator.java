@@ -29,10 +29,11 @@ public class PojoCreator {
     public List<AddQuestionRequest> createQuestions(UrlList urlList) throws IOException {
         List<AddQuestionRequest> list = new ArrayList<>();
         for (String it : urlList.getUrlList()) {
-            List<String> stringList = fetcher.fetchData(it);
+            List<String> stringList = fetcher.fetchData(it);            //throws IO Exception
             List<String> rawQuestionString = splitter.splitQuestions(stringList);
             String rawHeader = splitter.splitHeader(stringList);
             HashMap<String, String> snippets = splitter.splitSnippets(rawHeader);
+            validator.isValid(rawQuestionString);                       // throws IOException when invalid data is given
             list = parser.parseQuestionsWithAnswers(rawQuestionString);
             list = decorator.addSnippetsToQuestions(snippets, list);
             list = decorator.addCreditsToQuestions(splitter.splitCredits(rawHeader),list);

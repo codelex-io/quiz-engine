@@ -22,7 +22,5 @@ public interface IQuizService {
     Question saveQuestion(AddQuestionRequest question);
 
     QuestionRecord testSaving(AddQuestionRequest request);
-
-    byte[] createPDF(UrlList urlList) throws Exception;
     
 }
