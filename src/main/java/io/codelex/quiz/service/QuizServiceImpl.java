@@ -1,6 +1,5 @@
 package io.codelex.quiz.service;
 
-import io.codelex.quiz.IQuizService;
 import io.codelex.quiz.api.AddAnswerRequest;
 import io.codelex.quiz.api.AddQuestionRequest;
 import io.codelex.quiz.api.Question;
@@ -25,15 +24,15 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
-public class QuizService implements IQuizService {
-    private static final Logger LOG = LoggerFactory.getLogger(QuizService.class);
+public class QuizServiceImpl implements io.codelex.quiz.QuizService {
+    private static final Logger LOG = LoggerFactory.getLogger(QuizServiceImpl.class);
     private AnswerRepository answerRepository;
     private QuestionRepository questionRepository;
     private PojoCreator pojoCreator;
     private MapAddQuestionToQuestion mapAddQuestionToQuestion = new MapAddQuestionToQuestion();
     private MapQuestionRecordToQuestion toQuestion = new MapQuestionRecordToQuestion();
 
-    public QuizService(AnswerRepository answerRepository, QuestionRepository questionRepository, PojoCreator pojoCreator) {
+    public QuizServiceImpl(AnswerRepository answerRepository, QuestionRepository questionRepository, PojoCreator pojoCreator) {
         this.answerRepository = answerRepository;
         this.questionRepository = questionRepository;
         this.pojoCreator = pojoCreator;

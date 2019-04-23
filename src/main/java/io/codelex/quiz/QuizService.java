@@ -8,7 +8,7 @@ import io.codelex.quiz.model.QuestionRecord;
 import java.io.IOException;
 import java.util.List;
 
-public interface IQuizService {
+public interface QuizService {
     List<AddQuestionRequest> createQuestions(UrlList urlList) throws IOException;
 
     Question findQuestionById(Long id);

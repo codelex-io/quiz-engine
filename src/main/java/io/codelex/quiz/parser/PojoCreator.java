@@ -28,6 +28,7 @@ public class PojoCreator {
 
     public List<AddQuestionRequest> createQuestions(UrlList urlList) throws IOException {
         List<AddQuestionRequest> list = new ArrayList<>();
+        
         for (String it : urlList.getUrlList()) {
             List<String> stringList = fetcher.fetchData(it);            //throws IO Exception
             List<String> rawQuestionString = splitter.splitQuestions(stringList);

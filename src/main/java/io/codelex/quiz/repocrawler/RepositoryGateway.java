@@ -24,8 +24,7 @@ public class RepositoryGateway {
     public UrlList getAvailableContentMdLinks(String urlString) throws GitAPIException, IOException {
 
         if (urlString.contains("github.com")) {
-
-
+            
             FileUtils.deleteDirectory(new File("resources/quizrepository"));
             File file = new File("resources/quizrepository");
             Git.cloneRepository()

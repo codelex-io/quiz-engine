@@ -6,7 +6,6 @@ import io.codelex.quiz.parser.PojoCreator;
 import io.codelex.quiz.repository.AnswerRepository;
 import io.codelex.quiz.repository.QuestionRepository;
 import org.junit.Test;
-import org.junit.jupiter.api.Assertions;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
@@ -14,11 +13,11 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 
-public class IQuizServiceTest {
+public class QuizServiceImplTest {
     private AnswerRepository answerRepository = Mockito.mock(AnswerRepository.class);
     private QuestionRepository questionRepository = Mockito.mock(QuestionRepository.class);
     private PojoCreator pojoCreator = Mockito.mock(PojoCreator.class);
-    private QuizService quizService = new QuizService(answerRepository, questionRepository, pojoCreator);
+    private QuizServiceImpl quizServiceImpl = new QuizServiceImpl(answerRepository, questionRepository, pojoCreator);
 /*
     @Test
     public void should_save_answer_objects() {

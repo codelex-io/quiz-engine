@@ -14,20 +14,21 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/student-api")
 public class QuizController {
-    private IQuizService service;
+    private QuizService service;
     private RepositoryGateway gateway;
 
-    public QuizController(IQuizService service, RepositoryGateway gateway) {
+    public QuizController(QuizService service, RepositoryGateway gateway) {
         this.gateway = gateway;
         this.service = service;
     }
 
-/*
     @CrossOrigin
     @PostMapping("/quiz/{count}")
     public ResponseEntity<List<AddQuestionRequest>> publicTestCreator(@RequestBody UrlList urlList, @PathVariable(value = "count", required = false) Long count) {
@@ -50,7 +51,6 @@ public class QuizController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
-*/
 
     @GetMapping("/quiz/{count}")
     public ResponseEntity<List<Question>> createQuiz(@PathVariable(value = "count") int count) {
